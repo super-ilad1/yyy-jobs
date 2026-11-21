@@ -190,29 +190,11 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
 
 .foot{margin-top:40px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){.job.flash{animation:none}}
-.me{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.me b{color:var(--ink);font-weight:500}
-.me form{display:flex;gap:6px;align-items:center}
-.modal{position:fixed;inset:0;z-index:50;background:rgba(10,20,16,.45);display:flex;align-items:center;justify-content:center;padding:16px}
-.modal form{background:var(--surface);color:var(--ink);border-radius:12px;padding:22px 22px 18px;width:min(380px,100%);display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-.modal h3{font-size:18px}
-.modal p{margin:0;font-size:13.5px;color:var(--muted)}
-.modal input{font:16px var(--sans);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
-.modal .row{display:flex;gap:8px;justify-content:flex-end}
-.modal .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);padding:6px 16px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--ground);font-size:14px;padding:9px 16px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2);max-width:calc(100% - 32px)}
 </style>
 </head>
 <body>
 
-<div class="modal" id="nameModal" hidden>
-  <form id="nameForm">
-    <h3>先填一下你的名字</h3>
-    <p>收藏和“已投”会显示成“★ 你的名字”，打开这个网址的人都能看到。只需填一次。</p>
-    <input id="nameInput" maxlength="20" placeholder="比如：小杨" autocomplete="off" required>
-    <div class="row"><button class="btn" type="button" id="nameCancel">取消</button><button class="btn primary" type="submit">确定</button></div>
-  </form>
-</div>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="wrap">
 <header class="top">
@@ -275,12 +257,12 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
       </div>
       <div class="frow">
         <span class="fl">标记</span>
-        <button class="chip" id="onlyStar" aria-pressed="false">只看有人收藏</button>
-        <button class="chip" id="hideApplied" aria-pressed="false">隐藏已投递的</button>
+        <button class="chip" id="onlyStar" aria-pressed="false">只看已收藏</button>
+        <button class="chip" id="hideApplied" aria-pressed="false">隐藏已投递</button>
         <button class="chip" id="onlyDated" aria-pressed="false">只看有截止日</button>
       </div>
     </div>
-    <div class="sync" id="syncNote" data-s="loading"><i></i><span>正在连接共享标记…</span><span class="me" id="meBox"></span></div>
+    <div class="sync" id="syncNote" data-s="loading"><i></i><span>正在连接共享标记…</span></div>
     <div class="result-line"><span>显示 <b id="cnt">0</b> 个岗位</span><span>表格可左右滑动，第一列固定 · <button class="linkbtn" id="reset">清除筛选</button></span></div>
     <div class="jt-wrap"><table class="jt">
       <thead><tr><th class="c-name">推荐 · 单位 / 岗位</th><th class="c-city">城市</th><th class="c-pay">薪资 · 通道</th><th class="c-dl">截止</th><th class="c-req">要求</th><th class="c-fit">匹配点</th><th class="c-gap">缺口 / 不符原因</th><th class="c-more">说明 · 联系方式</th><th class="c-act">标记 · 链接</th></tr></thead>
@@ -468,73 +450,47 @@ function dlHtml(j){
   return `<span class="dlc ${cls}" title="截止 ${j.dl}">${j.days===0?'今天':'D-'+j.days}</span>`;
 }
 /* ---------- shared marks (Supabase) ---------- */
-// 部署前把下面两行换成你自己 Supabase 项目的值（Project Settings → API）
+// 收藏 / 已投是所有人共用的一份：任何人点了，大家看到的都一样
 const SUPABASE_URL='https://gkmcuwgcpgwzmhebbgtp.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_kmtHJQ7HNdBKRafKASa0Tg_e2KNIXiW';
+const WHO='shared';
 
-const sync={sb:null,conn:'loading',rows:[],me:'',after:null};
-try{sync.me=localStorage.getItem('jobname')||''}catch(e){}
+const sync={sb:null,conn:'loading',rows:[]};
 let marks={};
 function rebuild(){
   marks={};
-  for(const r of sync.rows){const m=marks[r.job_key]=marks[r.job_key]||{star:[],applied:[]};if(m[r.kind])m[r.kind].push({u:r.who,ts:r.created_at})}
+  for(const r of sync.rows){const m=marks[r.job_key]=marks[r.job_key]||{star:false,applied:false};if(r.kind in m)m[r.kind]=true}
 }
-const mineHas=(key,f)=>!!sync.me&&sync.rows.some(r=>r.job_key===key&&r.kind===f&&r.who===sync.me);
+const has=(key,f)=>!!(marks[key]&&marks[key][f]);
 const canMark=()=>!!sync.sb&&sync.conn!=='off';
 function setStatus(conn){
   if(conn)sync.conn=conn;
   const el=$('#syncNote'),s=sync.conn;let msg;
-  if(s==='loading')msg='正在连接共享标记…';
-  else if(s==='off')msg='共享标记没配置好：index.html 里还没填 Supabase 的地址和密钥，或者 Supabase 脚本没加载上。';
-  else if(s==='slow')msg='共享标记暂时连不上，显示的可能不是最新的。';
-  else{const n=new Set(sync.rows.map(r=>r.who)).size;msg='收藏和“已投”是共享的：打开这个网址的人都能看到谁标了什么'+(n?`（目前 ${n} 人标记过）`:'')+'。'}
+  if(s==='loading')msg='正在连接…';
+  else if(s==='off')msg='收藏功能暂时用不了：Supabase 脚本没加载上，换个网络再试。';
+  else if(s==='slow')msg='暂时连不上，显示的可能不是最新的。';
+  else msg='收藏和“已投”是共享的：任何人点了，打开这个网址的人看到的都一样。';
   el.dataset.s=s;el.querySelector('span').textContent=msg;
-  renderMe();
 }
-function renderMe(){
-  const box=$('#meBox');
-  if(!canMark()){box.innerHTML='';return}
-  box.innerHTML=sync.me?'我是 <b></b> <button class="linkbtn" id="rename" type="button">改名</button>':'<button class="linkbtn" id="rename" type="button">设置我的名字</button>';
-  if(sync.me)box.querySelector('b').textContent=sync.me;
-}
-function askName(after){
-  sync.after=after||null;
-  $('#nameInput').value=sync.me;
-  $('#nameModal').hidden=false;
-  setTimeout(()=>$('#nameInput').focus(),30);
-}
-function closeName(){$('#nameModal').hidden=true;sync.after=null}
 let toastTimer;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2200)}
-$('#meBox').addEventListener('click',e=>{if(e.target.id==='rename')askName()});
-$('#nameCancel').addEventListener('click',closeName);
-$('#nameModal').addEventListener('click',e=>{if(e.target.id==='nameModal')closeName()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#nameModal').hidden)closeName()});
-$('#nameForm').addEventListener('submit',e=>{
-  e.preventDefault();const v=$('#nameInput').value.trim().slice(0,20);if(!v)return;
-  sync.me=v;try{localStorage.setItem('jobname',v)}catch(err){}
-  const f=sync.after;$('#nameModal').hidden=true;sync.after=null;
-  renderMe();render();
-  if(f)f();else toast('名字已设为：'+v);
-});
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2000)}
 async function load(){
   if(!sync.sb)return;
-  const {data,error}=await sync.sb.from('marks').select('job_key,kind,who,created_at').order('created_at');
+  const {data,error}=await sync.sb.from('marks').select('job_key,kind,created_at').order('created_at');
   if(error){setStatus('slow');return}
   sync.rows=data||[];rebuild();setStatus('ready');render();
 }
 async function toggleMark(key,f){
   if(!canMark())return;
-  if(!sync.me){askName(()=>toggleMark(key,f));return}
-  const has=mineHas(key,f),me=sync.me;
-  sync.rows=has?sync.rows.filter(r=>!(r.job_key===key&&r.kind===f&&r.who===me))
-               :[...sync.rows,{job_key:key,kind:f,who:me,created_at:new Date().toISOString()}];
+  const on=has(key,f);
+  sync.rows=on?sync.rows.filter(r=>!(r.job_key===key&&r.kind===f))
+              :[...sync.rows,{job_key:key,kind:f,created_at:new Date().toISOString()}];
   rebuild();render();
   const t=sync.sb.from('marks');
-  const {error}=has?await t.delete().match({job_key:key,kind:f,who:me}):await t.insert({job_key:key,kind:f,who:me});
+  const {error}=on?await t.delete().match({job_key:key,kind:f}):await t.insert({job_key:key,kind:f,who:WHO});
   const label=f==='star'?'收藏':'已投';
-  if(error&&error.code!=='23505'){setStatus('slow');toast(label+'没保存上：网络连不上 Supabase，稍后再试');}
-  else toast(has?'已取消'+label:(f==='star'?'已收藏 ★':'已标记为已投 ✓'));
+  if(error&&error.code!=='23505'){setStatus('slow');toast(label+'没保存上：连不上数据库，稍后再试')}
+  else toast(on?'已取消'+label:(f==='star'?'已收藏 ★':'已标记为已投 ✓'));
   load();
 }
 (function(){
@@ -579,7 +535,7 @@ $('#reset').addEventListener('click',()=>{st.g.clear();st.t=new Set(['1','2','3'
 function filtered(){
   let r=J.filter(j=>(!st.g.size||st.g.has(j.g))&&st.t.has(String(j.t))
     &&(!st.city||j.cityMain.includes(st.city))
-    &&(!st.star||(marks[j.key]&&marks[j.key].star.length))&&(!st.hideApplied||!(marks[j.key]&&marks[j.key].applied.length))
+    &&(!st.star||has(j.key,'star'))&&(!st.hideApplied||!has(j.key,'applied'))
     &&(!st.dated||j.days!=null)
     &&(!st.q||[j.co,j.job,j.city,j.req,j.fit,j.gap,j.ch,j.note,GROUPS[j.g]].join(' ').toLowerCase().includes(st.q)));
   const dk=j=>j.days==null?1e5:(j.days<0?2e5:j.days);
@@ -592,11 +548,10 @@ function render(){
   $('#jobs').innerHTML=r.length?r.map(row).join(''):'<tr><td colspan="9" class="empty">没有符合条件的岗位。试试放宽“推荐”或清除筛选。</td></tr>';
 }
 const md=ts=>{const d=new Date(ts);return isNaN(d)?'':(d.getMonth()+1)+'-'+d.getDate()};
-function who(list,icon,label){return list.map(x=>`<span class="mk" title="${label}于 ${md(x.ts)}">${icon}${esc(x.u)}${x.u===sync.me?'（你）':''}</span>`).join('')}
 const D='<span class="dash">—</span>';
 function row(j){
-  const m=marks[j.key]||{star:[],applied:[]},dis=canMark()?'':' disabled';
-  const tags=who(m.star,'★ ','收藏')+who(m.applied,'已投 · ','标记已投');
+  const dis=canMark()?'':' disabled';
+  const tags=(has(j.key,'star')?'<span class="mk">★ 已收藏</span>':'')+(has(j.key,'applied')?'<span class="mk">✓ 已投</span>':'');
   const tel=j.tel?`<div class="tel">${j.tel.map(t=>{const v=t.match(/[\w.]+@[\w.]+|\d[\d-]{6,}/);return `<div><span>${esc(t)}</span>${v?` <button class="cp" data-copy="${esc(v[0])}">复制</button>`:''}</div>`}).join('')}</div>`:'';
   return `<tr class="is-t${j.t}" id="job-${j.i}">
   <td class="c-name"><span class="tier t${j.t}">${TIERS[j.t]}</span><span class="co"><span>${esc(j.co)}</span><span class="grp">${GROUPS[j.g]}</span>${tags}</span><span class="ti">${esc(j.job)}</span></td>
@@ -608,8 +563,8 @@ function row(j){
   <td class="c-gap">${esc(j.gap)||D}</td>
   <td class="c-more">${esc(j.note)}${tel}${!j.note&&!j.tel?D:''}</td>
   <td class="c-act"><div class="acts">
-    <button class="btn" data-mark="star" data-k="${j.i}" aria-pressed="${mineHas(j.key,'star')}"${dis}>${mineHas(j.key,'star')?'★ 已收藏':'☆ 收藏'}</button>
-    <button class="btn" data-mark="applied" data-k="${j.i}" aria-pressed="${mineHas(j.key,'applied')}"${dis}>${mineHas(j.key,'applied')?'✓ 已投递':'标记已投'}</button>
+    <button class="btn" data-mark="star" data-k="${j.i}" aria-pressed="${has(j.key,'star')}"${dis}>${has(j.key,'star')?'★ 已收藏':'☆ 收藏'}</button>
+    <button class="btn" data-mark="applied" data-k="${j.i}" aria-pressed="${has(j.key,'applied')}"${dis}>${has(j.key,'applied')?'✓ 已投递':'标记已投'}</button>
     ${j.url?`<a class="btn out" href="${esc(j.url)}" target="_blank" rel="noopener">${domain(j.url)} ↗</a>`:''}
     <span class="ch">文件 ${j.src}</span>
   </div></td></tr>`;
