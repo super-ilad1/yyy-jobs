@@ -193,11 +193,27 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
 .me{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .me b{color:var(--ink);font-weight:500}
 .me form{display:flex;gap:6px;align-items:center}
-.me input{font:14px var(--sans);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:6px;padding:4px 8px;width:9em}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(10,20,16,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal form{background:var(--surface);color:var(--ink);border-radius:12px;padding:22px 22px 18px;width:min(380px,100%);display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.modal h3{font-size:18px}
+.modal p{margin:0;font-size:13.5px;color:var(--muted)}
+.modal input{font:16px var(--sans);color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
+.modal .row{display:flex;gap:8px;justify-content:flex-end}
+.modal .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);padding:6px 16px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--ground);font-size:14px;padding:9px 16px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2);max-width:calc(100% - 32px)}
 </style>
 </head>
 <body>
 
+<div class="modal" id="nameModal" hidden>
+  <form id="nameForm">
+    <h3>先填一下你的名字</h3>
+    <p>收藏和“已投”会显示成“★ 你的名字”，打开这个网址的人都能看到。只需填一次。</p>
+    <input id="nameInput" maxlength="20" placeholder="比如：小杨" autocomplete="off" required>
+    <div class="row"><button class="btn" type="button" id="nameCancel">取消</button><button class="btn primary" type="submit">确定</button></div>
+  </form>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
 <div class="wrap">
 <header class="top">
   <div>
@@ -456,7 +472,7 @@ function dlHtml(j){
 const SUPABASE_URL='https://gkmcuwgcpgwzmhebbgtp.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_kmtHJQ7HNdBKRafKASa0Tg_e2KNIXiW';
 
-const sync={sb:null,conn:'loading',rows:[],me:'',asking:false,after:null};
+const sync={sb:null,conn:'loading',rows:[],me:'',after:null};
 try{sync.me=localStorage.getItem('jobname')||''}catch(e){}
 let marks={};
 function rebuild(){
@@ -478,19 +494,28 @@ function setStatus(conn){
 function renderMe(){
   const box=$('#meBox');
   if(!canMark()){box.innerHTML='';return}
-  if(sync.asking){
-    if($('#nameForm'))return;
-    box.innerHTML='<form id="nameForm"><label for="nameInput">你的名字</label><input id="nameInput" maxlength="20" placeholder="比如：小杨" required><button class="btn" type="submit">确定</button></form>';
-    $('#nameInput').value=sync.me;box.scrollIntoView({block:'center'});$('#nameInput').focus({preventScroll:true});return;
-  }
-  box.innerHTML=sync.me?'我是 <b></b> <button class="linkbtn" id="rename" type="button">改名</button>':'<button class="btn" id="rename" type="button">先设置我的名字</button>';
+  box.innerHTML=sync.me?'我是 <b></b> <button class="linkbtn" id="rename" type="button">改名</button>':'<button class="linkbtn" id="rename" type="button">设置我的名字</button>';
   if(sync.me)box.querySelector('b').textContent=sync.me;
 }
-$('#meBox').addEventListener('click',e=>{if(e.target.id==='rename'){sync.asking=true;renderMe()}});
-$('#meBox').addEventListener('submit',e=>{
+function askName(after){
+  sync.after=after||null;
+  $('#nameInput').value=sync.me;
+  $('#nameModal').hidden=false;
+  setTimeout(()=>$('#nameInput').focus(),30);
+}
+function closeName(){$('#nameModal').hidden=true;sync.after=null}
+let toastTimer;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2200)}
+$('#meBox').addEventListener('click',e=>{if(e.target.id==='rename')askName()});
+$('#nameCancel').addEventListener('click',closeName);
+$('#nameModal').addEventListener('click',e=>{if(e.target.id==='nameModal')closeName()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#nameModal').hidden)closeName()});
+$('#nameForm').addEventListener('submit',e=>{
   e.preventDefault();const v=$('#nameInput').value.trim().slice(0,20);if(!v)return;
-  sync.me=v;sync.asking=false;try{localStorage.setItem('jobname',v)}catch(err){}
-  renderMe();render();const f=sync.after;sync.after=null;if(f)f();
+  sync.me=v;try{localStorage.setItem('jobname',v)}catch(err){}
+  const f=sync.after;$('#nameModal').hidden=true;sync.after=null;
+  renderMe();render();
+  if(f)f();else toast('名字已设为：'+v);
 });
 async function load(){
   if(!sync.sb)return;
@@ -500,14 +525,16 @@ async function load(){
 }
 async function toggleMark(key,f){
   if(!canMark())return;
-  if(!sync.me){sync.after=()=>toggleMark(key,f);sync.asking=true;renderMe();return}
+  if(!sync.me){askName(()=>toggleMark(key,f));return}
   const has=mineHas(key,f),me=sync.me;
   sync.rows=has?sync.rows.filter(r=>!(r.job_key===key&&r.kind===f&&r.who===me))
                :[...sync.rows,{job_key:key,kind:f,who:me,created_at:new Date().toISOString()}];
   rebuild();render();
   const t=sync.sb.from('marks');
   const {error}=has?await t.delete().match({job_key:key,kind:f,who:me}):await t.insert({job_key:key,kind:f,who:me});
-  if(error&&error.code!=='23505')setStatus('slow');
+  const label=f==='star'?'收藏':'已投';
+  if(error&&error.code!=='23505'){setStatus('slow');toast(label+'没保存上：网络连不上 Supabase，稍后再试');}
+  else toast(has?'已取消'+label:(f==='star'?'已收藏 ★':'已标记为已投 ✓'));
   load();
 }
 (function(){
