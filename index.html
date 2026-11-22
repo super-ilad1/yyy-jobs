@@ -188,6 +188,18 @@ tr:last-child td{border-bottom:0}
 td.ok{color:var(--accent);font-weight:500;white-space:nowrap}
 td.no{color:var(--urgent);font-weight:500;white-space:nowrap}
 td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.verdict>div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.verdict h3{font-size:16px}
+.verdict p{margin:0;font-size:14px;color:var(--muted)}
+.pill{display:inline-block;align-self:flex-start;font-size:12px;font-weight:500;padding:1px 9px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--accent-soft);color:var(--accent)}
+.pill.mid{background:var(--warn-soft);color:var(--warn)}
+.pill.hard{background:var(--urgent-soft);color:var(--urgent)}
+ul.plain,ol.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px;font-size:14px}
+ol.steps li::marker{color:var(--accent);font-weight:600}
+.srcs{font-size:12.5px;color:var(--faint);line-height:1.9}
+.srcs a{color:var(--muted)}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .kpis div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
 .kpis .mono{font-size:24px;font-weight:600;color:var(--ink)}
@@ -232,6 +244,7 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
   <button role="tab" id="tab-overview" data-tab="overview">总览</button>
   <button role="tab" id="tab-jobs" data-tab="jobs">岗位库<span class="n" id="tabN"></span></button>
   <button role="tab" id="tab-advice" data-tab="advice">建议和分析</button>
+  <button role="tab" id="tab-switch" data-tab="switch">体制内外转换</button>
 </nav>
 
 <!-- 总览 -->
@@ -385,6 +398,81 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
 
   <div class="callout"><b>总的判断：</b>企业医学岗和体制内高校两条线同时推进。企业线现在就能拿到 offer，用来保底；高校线看论文进展，是更想要的长期方向。到 11 月底，企业这边先投出 10–15 份，体制内把 11-30 截止的三家处理完，这是目前性价比最高的做法。表里标“（参考）”的工资是按公司平均水平或网上爆料估的，以对方实际开出的为准。</div>
 </section>
+<!-- 体制内外转换 -->
+<section class="panel" id="p-switch" role="tabpanel" aria-labelledby="tab-switch" hidden>
+  <div>
+    <div class="sec-h"><h2>先说结论</h2></div>
+    <div class="verdict">
+      <div><span class="pill ok">容易</span><h3>体制内 → 体制外</h3><p>辞职提前 30 天书面通知即可。真正的成本是服务期没满要退安家费、科研启动费，有的还有违约金。</p></div>
+      <div><span class="pill mid">能回，但有窗口期</span><h3>体制外 → 体制内（高校教职）</h3><p>高校面向“社会人员”的招聘一直开着，她 27 岁，离年龄线还远。难点不在身份，而在<b>离开学术圈后论文断档</b>：高校看的是近 3–5 年的一作论文和项目。</p></div>
+    </div>
+    <p class="lead">一句话：从高校去企业几乎随时可以；从企业回高校，越早越容易，而且要在企业期间一直保持论文产出。</p>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>先去企业，以后想回高校：难在哪</h2></div>
+    <div class="lessons">
+      <div><h3>① 应届生身份会失去</h3><p>广东事业单位集中招聘高校毕业生的“应届岗”，只收当年毕业生和前两年“未落实工作单位、非在职”的毕业生。一旦在企业签合同、交社保，就不能报这类岗位了。<br><b>但高校的人才招聘多数写的是“应届毕业生和社会人员”</b>（嘉应、岭南都是），这条路不会因此关上。</p></div>
+      <div><h3>② 论文会断档（最大难点）</h3><p>地方本科要“近五年一作 D 类以上”（嘉应）或“近三年 SCI 二区”（岭南），医科大学和“双一流”还要项目、往往要博士后经历。企业里发论文少，三五年后“近几年成果”就是空白，这比年龄更卡人。</p></div>
+      <div><h3>③ 博士后这座桥会断</h3><p>博士后一般要求“取得博士学位 3 年内、35 岁以下”。工作 3 年后，这条进高校最顺的路基本走不了。</p></div>
+      <div><h3>④ 年龄不是问题</h3><p>高校专任教师常见的年龄线是 35 / 38 / 40 岁，近两年不少放宽到 40 岁。她 27 岁，有 8–13 年的余量。</p></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>企业经历反而是加分项的地方</h2></div>
+    <ul class="plain">
+      <li><b>高职院校、应用型本科</b>：国家“职教 20 条”规定，这类学校的专业教师原则上从<b>有 3 年以上企业工作经历</b>的人员中招聘，基本不再招没有企业经历的应届生。健康管理、康复治疗、医学技术这类专业，“博士 + 几年医疗企业经历”正对口。</li>
+      <li><b>新型研发机构</b>（深圳湾实验室、深圳医学科学院等，合同制）：看重转化和产业经验，对企业背景更开放。</li>
+      <li><b>医学院的临床研究、转化医学岗位</b>：企业里做过的临床试验、真实世界研究、产品注册，都是实打实的经历。</li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>回到哪类单位，难度不一样</h2><p>假设在企业工作 3 年左右</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>想回去的单位</th><th style="width:6em">难度</th><th>关键条件</th></tr></thead>
+      <tbody>
+        <tr><td>高职院校、应用型本科（健康、康复类专业）</td><td><span class="pill ok">较低</span></td><td>博士 + 3 年企业经历反而对口</td></tr>
+        <tr><td>地方本科（嘉应、岭南、韶关等）</td><td><span class="pill mid">中等</span></td><td>近 3–5 年有一作论文；40 岁以下</td></tr>
+        <tr><td>研究所、新型研发机构</td><td><span class="pill mid">中等</span></td><td>论文和课题方向要对得上</td></tr>
+        <tr><td>医科大学、“双一流”（南医、广医、中大）</td><td><span class="pill hard">很难</span></td><td>一般要博士后经历 + 高水平论文 + 国自然等项目；几年没论文基本没机会</td></tr>
+        <tr><td>广东事业单位集中招聘的“应届岗”</td><td><span class="pill hard">关闭</span></td><td>已在企业就业，失去应届身份；只能报面向社会人员的岗位</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>先进高校，以后想去企业：成本在哪</h2></div>
+    <ul class="plain">
+      <li><b>辞职手续</b>：《事业单位人事管理条例》第十七条，提前 30 日书面通知就可以解除聘用合同，除非合同另有约定。</li>
+      <li><b>服务期和退款</b>：高校引进博士常见 3–5 年服务期，有的 8–10 年。没满就走，一般要按比例退住房补贴（嘉应医科博士 30–56 万）和科研启动费，有的还约定违约金（法院判决不一）。<b>签约前一定看清这一条。</b></li>
+      <li><b>编制</b>：辞职就放弃编制，以后想回来要重新参加公开招聘。</li>
+      <li><b>养老保险</b>：机关事业单位和企业的养老保险可以转移接续，不会作废。</li>
+      <li><b>企业怎么看</b>：几年教学科研经历对医学事务、临床研究岗是加分，但企业更看行业经验，起点可能和刚入行的人差不多。30 岁以后转去做 MSL、医学经理很常见。</li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>对她的具体建议</h2></div>
+    <ol class="steps">
+      <li><b>如果长期想当高校老师，尽量“先进高校，再说别的”。</b>高校的门槛会随着离开学术圈的年数上升；从高校去企业几乎随时都行，反过来越拖越难。</li>
+      <li><b>2027 年 1–2 月有一个时间点要注意</b>：广东事业单位集中招聘的“应届岗”只收未就业的毕业生。如果想报那一轮，在那之前不要先入职交社保。</li>
+      <li><b>Bone Research 接收后（预计 2027 年 1–2 月）是冲高校最好的窗口</b>：刚毕业不到一年，又有新的一区论文，正好赶上 3–6 月的高校招聘季。即使那时已经在企业，也可以作为社会人员报地方高校。</li>
+      <li><b>如果先去企业保底，要选能继续发论文的岗位</b>：比如华大临床科研、医学事务里写综述和做真实世界研究的岗，或企业研发岗；避开纯销售、纯市场。</li>
+      <li><b>在企业期间给自己留后路</b>：每年争取 1 篇一作或通讯论文（可以和医院的老师合作）；有机会就挂一个医院或高校的合作身份，参与国自然课题；<b>3 年内做决定</b>，别让博士后窗口过期。</li>
+    </ol>
+  </div>
+
+  <div class="srcs">依据：
+    <a href="https://www.gov.cn/zhengce/2019-02/20/content_5366991.htm" target="_blank" rel="noopener">“职教 20 条”政策解读（中国政府网）</a> ·
+    <a href="http://www.moe.gov.cn/fbh/live/2019/51475/mtbd/201910/t20191022_404698.html" target="_blank" rel="noopener">职业院校教师需 3 年企业经历（教育部）</a> ·
+    <a href="https://xzfg.moj.gov.cn/front/law/detail?LawID=414" target="_blank" rel="noopener">《事业单位人事管理条例》（司法部）</a> ·
+    <a href="https://www.gd.gov.cn/zwfw/bmts/content/post_4849269.html" target="_blank" rel="noopener">广东省事业单位 2026 年集中招聘高校毕业生公告</a> ·
+    <a href="https://m.thepaper.cn/wifiKey_detail.jsp?contid=14901535&amp;from=wifiKey" target="_blank" rel="noopener">高校教师未满服务期离职的判决（澎湃）</a> ·
+    <a href="http://rsj.smx.gov.cn/32029/616197600/1047703.html" target="_blank" rel="noopener">机关事业与企业养老保险转移接续</a>
+  </div>
+</section>
 
 <div class="foot"><span>数据核对于 2026-11-22</span><span>“滚动 / 招满为止”的岗位，报名前先打电话问还空不空</span></div>
 </div>
@@ -397,22 +485,22 @@ const TORD={1:0,2:1,3:2,w:3,0:4};
 
 const J=[
 /* ---------- 企业 · 医学类 首推 ---------- */
-{g:'med',t:1,co:'华润三九',job:'医学联络经理',city:'深圳',pay:'15–25k',ch:'猎聘',req:'博士学历，医药相关；医学事务经验只是“优先”；英语要好',fit:'少见的明确招博士、不硬性要求经验的 MSL 岗',gap:'要做专家关系维护、学术会议，偏对外沟通；英语只有四六级',url:L+'1980320557.shtml',dl:"招满即止",dlNote:"猎聘 11-18 更新，仍在招",src:''},
-{g:'med',t:1,co:'华润三九',job:'医学事务经理',city:'深圳',pay:'10–20k',ch:'猎聘',req:'硕士以上；临床方案设计、数据解读、医学撰写、真实世界研究；经验“优先”',fit:'方案设计和论文写作是她的强项',gap:'薪资区间偏低，面试时可以谈',url:L+'1980320377.shtml',dl:"招满即止",dlNote:"猎聘 11-18 更新，仍在招",src:''},
+{g:'med',t:1,co:'华润三九',job:'医学联络经理',city:'深圳',pay:'15–25k',ch:'猎聘',req:'博士学历，医药相关；医学事务经验只是“优先”；英语要好',fit:'少见的明确招博士、不硬性要求经验的 MSL 岗',gap:'要做专家关系维护、学术会议，偏对外沟通；英语只有四六级',url:L+'1980320557.shtml',dl:"招满即止",dlNote:"猎聘 11-18 更新，仍在招",note:"猎聘原帖投递；也可以先发邮件说明“2026 届临床医学博士”，问是否接受应届。",tel:["招聘邮箱 recruit@999.com.cn", "招聘电话 0755-83360999", "公众号：华润三九招聘与配置"],src:''},
+{g:'med',t:1,co:'华润三九',job:'医学事务经理',city:'深圳',pay:'10–20k',ch:'猎聘',req:'硕士以上；临床方案设计、数据解读、医学撰写、真实世界研究；经验“优先”',fit:'方案设计和论文写作是她的强项',gap:'薪资区间偏低，面试时可以谈',url:L+'1980320377.shtml',dl:"招满即止",dlNote:"猎聘 11-18 更新，仍在招",note:"猎聘原帖投递；可和医学联络经理一起投，邮件里写清两个岗位。",tel:["招聘邮箱 recruit@999.com.cn", "招聘电话 0755-83360999", "公众号：华润三九招聘与配置"],src:''},
 {g:'med',t:1,co:'帝迈生物',job:'高级临床开发工程师（博士）',city:'深圳',pay:'28–35k·14薪',ch:'猎聘 · 帝迈博士专场',req:'博士，临床医学 / 检验医学；有文章发表；熟悉常见病诊疗和检验的临床应用；了解统计、循证、GCP',fit:'临床医学博士 + 执业医师证 + 论文，条件对得上',gap:'方向是血液分析仪等体外诊断',dl:'2026-12-31',src:''},
-{g:'med',t:1,co:'万孚生物',job:'医学事务经理',city:'广州',pay:'15–22K·16薪',ch:'Boss直聘',req:'博士优先（临床医学、生信等）；协助国自然 / 企业联合基金申报、课题方案撰写、医学培训',fit:'读博期间做过课题和论文，生信能力是加分项',gap:'要能出差',url:Z+'8e34569ef2f329df0nx42N24EVRU.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:1,co:'健康元',job:'临床医学经理 / AI+医学',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'应届硕士 / 博士可投；写临床方案、IB、CSR，做医学监查',fit:'临床医学背景，有执业医师证',gap:'偏呼吸 / ICU 背景；要补 GCP 和药物开发流程知识',url:Z+'c2a73d7bb66b2b170nB42Ny6GFdR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:1,co:'华大基因',job:'临床医学研究主管',city:'深圳',pay:'10–15K（猎聘同类 15–25K·14薪）',ch:'Boss直聘',req:'硕士以上，博士优先；组学数据分析或临床试验经验优先；论文写作',fit:'单细胞 / 转录组分析，两篇共一',gap:'方向是肠道菌群、益生菌，不是骨科；薪资偏低',url:Z+'47f3076e1958ee310nd8392-F1JR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:1,co:'珠海某医疗器械上市公司',job:'骨关节炎科学家',city:'珠海',pay:'20–35K',ch:'Boss直聘',req:'骨关节炎机制、早期诊断标志物、药物靶点、再生医学研究；发论文',fit:'和她的课题最近（韧带 / 肩袖修复、基质重塑、单细胞）',gap:'JD 很短，要先问清楚经验要求和公司名',url:Z+'89849b0544406f3b0ndy39y-FVZR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:1,co:'爱宝惟（糖糖圈）',job:'临床研究医师 / 医学科学家',city:'深圳',pay:'年薪 20–40 万',ch:'Boss直聘',req:'必须有执业医师证；博士优先；SCI 论文；真实世界研究',fit:'执业医师证 + 博士 + 论文，三条硬条件都满足',gap:'方向是 1 型糖尿病；要在公司自有诊所参与部分诊疗，和“不进医院”有点冲突',url:Z+'6830c0489d2c2d4b0nF40t24E1FZ.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:1,co:'华大基因',job:'医学中级 / 高级研发工程师',city:'深圳',pay:'20–40K',ch:'Boss直聘',req:'博士（临床医学也可）；NGS / PCR 等分子实验；肿瘤早筛产品开发',fit:'做过 PCR、WB、组学',gap:'没做过肿瘤检测和 NGS 建库',url:Z+'34a9ce42058517c10nx42d2-F1VT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
+{g:'med',t:1,co:'万孚生物',job:'医学事务经理',city:'广州',pay:'15–22K·16薪',ch:'Boss直聘',req:'博士优先（临床医学、生信等）；协助国自然 / 企业联合基金申报、课题方案撰写、医学培训',fit:'读博期间做过课题和论文，生信能力是加分项',gap:'要能出差',url:Z+'8e34569ef2f329df0nx42N24EVRU.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上直接沟通，这是社招岗，不受“27 届只收 2026-11 以后毕业”的限制。",tel:["招聘邮箱 zhaopin@wondfo.com.cn"],src:''},
+{g:'med',t:1,co:'健康元',job:'临床医学经理 / AI+医学',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'应届硕士 / 博士可投；写临床方案、IB、CSR，做医学监查',fit:'临床医学背景，有执业医师证',gap:'偏呼吸 / ICU 背景；要补 GCP 和药物开发流程知识',url:Z+'c2a73d7bb66b2b170nB42Ny6GFdR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 原帖写明“应届可投”，直接在 Boss 上打招呼；也可以走公众号“健康元招聘”。",tel:["招聘邮箱 zhaopin@joincare.com", "校招热线 0755-33268688 转 2301（往年校招简章所载）"],src:''},
+{g:'med',t:1,co:'华大基因',job:'临床医学研究主管',city:'深圳',pay:'10–15K（猎聘同类 15–25K·14薪）',ch:'Boss直聘',req:'硕士以上，博士优先；组学数据分析或临床试验经验优先；论文写作',fit:'单细胞 / 转录组分析，两篇共一',gap:'方向是肠道菌群、益生菌，不是骨科；薪资偏低',url:Z+'47f3076e1958ee310nd8392-F1JR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上直接和 HR 沟通；同一家公司的校招官网 genomics.zhiye.com 也能搜到相关岗位。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
+{g:'med',t:1,co:'珠海某医疗器械上市公司',job:'骨关节炎科学家',city:'珠海',pay:'20–35K',ch:'Boss直聘',req:'骨关节炎机制、早期诊断标志物、药物靶点、再生医学研究；发论文',fit:'和她的课题最近（韧带 / 肩袖修复、基质重塑、单细胞）',gap:'JD 很短，要先问清楚经验要求和公司名',url:Z+'89849b0544406f3b0ndy39y-FVZR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上公司名被隐藏，只能在 Boss 里和 HR 沟通；先问公司名、是否接受应届博士。",src:''},
+{g:'med',t:1,co:'爱宝惟（糖糖圈）',job:'临床研究医师 / 医学科学家',city:'深圳',pay:'年薪 20–40 万',ch:'Boss直聘',req:'必须有执业医师证；博士优先；SCI 论文；真实世界研究',fit:'执业医师证 + 博士 + 论文，三条硬条件都满足',gap:'方向是 1 型糖尿病；要在公司自有诊所参与部分诊疗，和“不进医院”有点冲突',url:Z+'6830c0489d2c2d4b0nF40t24E1FZ.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上沟通；先问在公司诊所参与诊疗的比例。",src:''},
+{g:'med',t:1,co:'华大基因',job:'医学中级 / 高级研发工程师',city:'深圳',pay:'20–40K',ch:'Boss直聘',req:'博士（临床医学也可）；NGS / PCR 等分子实验；肿瘤早筛产品开发',fit:'做过 PCR、WB、组学',gap:'没做过肿瘤检测和 NGS 建库',url:Z+'34a9ce42058517c10nx42d2-F1VT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上直接和 HR 沟通；同一家公司的校招官网 genomics.zhiye.com 也能搜到相关岗位。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
 /* 企业 · 医学类 可投 */
 {g:'med',t:2,co:'北芯生命',job:'临床医学经理',city:'深圳',pay:'15–30K·15薪',ch:'Boss直聘',gap:'要 1 年以上器械医学事务 / 临床研究经验，博士优先',url:Z+'8426f7273d8935430nBz29W5EVZS.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
 {g:'med',t:2,co:'健康元',job:'医学经理 / 专员',city:'深圳',pay:'15–25K',ch:'Boss直聘',gap:'要 1 年以上医学相关工作经验',url:Z+'c803ae3ce5436ca30ndz3ti0ElJU.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:2,co:'深圳大型智能硬件公司',job:'健康研究',city:'深圳',pay:'30–50K',ch:'Boss直聘',gap:'要 3 年研究经验；读博期间的科研能否算进去，要问 HR',url:Z+'149f1735be9faa260nBz2t65GVdV.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:2,co:'深圳大型智能硬件公司',job:'健康研究员',city:'深圳',pay:'40–50K',ch:'Boss直聘',gap:'要 3 年研究经验；读博期间的科研能否算进去，要问 HR',url:Z+'4b72d32d824e95bf0nB509i1FFVU.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
+{g:'med',t:2,co:'深圳大型智能硬件公司',job:'健康研究',city:'深圳',pay:'30–50K',ch:'Boss直聘',gap:'要 3 年研究经验；读博期间的科研能否算进去，要问 HR',url:Z+'149f1735be9faa260nBz2t65GVdV.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上公司名被隐藏，Boss 里沟通；先问读博期间的科研能否算“3 年研究经验”。",src:''},
+{g:'med',t:2,co:'深圳大型智能硬件公司',job:'健康研究员',city:'深圳',pay:'40–50K',ch:'Boss直聘',gap:'要 3 年研究经验；读博期间的科研能否算进去，要问 HR',url:Z+'4b72d32d824e95bf0nB509i1FFVU.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上公司名被隐藏，Boss 里沟通；先问读博期间的科研能否算“3 年研究经验”。",src:''},
 {g:'med',t:2,co:'丽珠',job:'区域医学经理',city:'广州',pay:'18–22K',ch:'Boss直聘',gap:'要 2 年临床工作经验（不含读研），或 2 年 MA / MSL 经验',url:Z+'328c8655160cc7640nB-2NW4EFBY.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'med',t:2,co:'惠泰医疗',job:'医学专员',city:'深圳',pay:'15–18K·16薪',ch:'Boss直聘',gap:'要 3 年经验和英语六级',url:Z+'48bf678d060904161XF83N-6FFpT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
+{g:'med',t:2,co:'惠泰医疗',job:'医学专员',city:'深圳',pay:'15–18K·16薪',ch:'Boss直聘',gap:'要 3 年经验和英语六级',url:Z+'48bf678d060904161XF83N-6FFpT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"这个岗要 3 年经验。同公司在应届生求职网另挂了“医学经理 / 医学研究员（MJ000269）”，标注无需经验，建议投那个。",src:''},
 {g:'med',t:2,co:'AEKE',job:'运动科学专家',city:'深圳',pay:'20–40K',ch:'Boss直聘',gap:'偏体能训练，要 NSCA / ACSM 等健身认证；和运动医学只沾边',url:Z+'05b487b5023db7b90nx_29W8EFNR.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
 {g:'med',t:2,co:'帝迈生物',job:'高级医学经理（博士）',city:'深圳',pay:'28–35k·14薪',ch:'猎聘',gap:'要 3 年血液病 / 流式 / 图像研究经验和 5 篇 SCI（≥2 篇一作或共一）；论文接收后能凑近，但方向不同',dl:"招满即止",dlNote:"猎聘岗位，没有链接，未复核",src:''},
 {g:'med',t:2,co:'康方生物',job:'疾病生物组科学家（小核酸）',city:'中山',pay:'25–40k',ch:'猎聘',req:'博士（生化、细胞、分子生物学）；小核酸经验优先',gap:'偏实验室药物发现，要接受“回到实验台”',dl:"招满即止",dlNote:"猎聘岗位，没有链接，未复核",src:''},
@@ -427,34 +515,34 @@ const J=[
 {g:'med',t:0,co:'爱尔康',job:'FMA 医学事务',city:'',gap:'列表写“学生可投”，JD 是 Principal 级别，要资深眼科医学事务经验',src:''},
 {g:'med',t:0,co:'联邦制药',job:'临床药理研究员',city:'',gap:'接受 2026 届，但专业要临床药理、药代动力学或定量药理',src:''},
 /* ---------- 企业 · 跨专业 ---------- */
-{g:'x',t:1,co:'Anker',job:'医学经理（多模态与生理基座方向）',city:'深圳',pay:'30–50K·14薪',ch:'Boss直聘',req:'硕士以上，临床医学、生理学等都可以；Python/R 统计分析（假设检验、回归、时序）；定义心率、睡眠等医学指标，设计穿戴数据采集和验证方案',fit:'跨专业里最对口：临床 + 统计 + R/Python 正是她的组合；JD 没有硬性经验要求',url:Z+'5e21d0f9347dfd670nx52tm5F1ZY.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'x',t:1,co:'深度智耀',job:'AI 临床科学家（医学 + AI）',city:'深圳',pay:'11–20K',ch:'Boss直聘',req:'临床医学硕士 / 博士优先；有临床轮转或临床研究经历；欢迎应届；英文好',fit:'条件都满足；能看到 AI 辅助新药研发的全链路',gap:'起薪偏低',url:Z+'ef3c0087cdf548200nJ92NW_E1VT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'x',t:1,co:'华大基因',job:'产品经理（医学产品）',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'基础医学 / 临床医学硕士以上；沟通、逻辑；英文能工作',fit:'没有经验门槛',gap:'偏产品定位、推广和培训',url:Z+'773be98fed3849b20nx42927F1RX.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
+{g:'x',t:1,co:'Anker',job:'医学经理（多模态与生理基座方向）',city:'深圳',pay:'30–50K·14薪',ch:'Boss直聘',req:'硕士以上，临床医学、生理学等都可以；Python/R 统计分析（假设检验、回归、时序）；定义心率、睡眠等医学指标，设计穿戴数据采集和验证方案',fit:'跨专业里最对口：临床 + 统计 + R/Python 正是她的组合；JD 没有硬性经验要求',url:Z+'5e21d0f9347dfd670nx52tm5F1ZY.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 原帖 11-22 显示“招聘中”，但猎聘上同名岗位显示已暂停，先在 Boss 上问清楚；官网 career.anker.com.cn 也能搜。",tel:["公众号：安克创新招聘"],src:''},
+{g:'x',t:1,co:'深度智耀',job:'AI 临床科学家（医学 + AI）',city:'深圳',pay:'11–20K',ch:'Boss直聘',req:'临床医学硕士 / 博士优先；有临床轮转或临床研究经历；欢迎应届；英文好',fit:'条件都满足；能看到 AI 辅助新药研发的全链路',gap:'起薪偏低',url:Z+'ef3c0087cdf548200nJ92NW_E1VT.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上沟通；公司总部在北京，这个岗位在深圳，先确认工作地。",tel:["通用邮箱 hr@deepintepharma.com（网上公开的，未核实是否仍在用）"],src:''},
+{g:'x',t:1,co:'华大基因',job:'产品经理（医学产品）',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'基础医学 / 临床医学硕士以上；沟通、逻辑；英文能工作',fit:'没有经验门槛',gap:'偏产品定位、推广和培训',url:Z+'773be98fed3849b20nx42927F1RX.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上直接和 HR 沟通；同一家公司的校招官网 genomics.zhiye.com 也能搜到相关岗位。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
 {g:'x',t:1,co:'新产业生物',job:'AI 医疗软件产品经理',city:'深圳',pay:'13–15K·14薪',ch:'Boss直聘',req:'医学 / 检验 / 生信等硕士；挖掘检验科 AI 需求，设计“智慧医研平台”',fit:'没有经验门槛',gap:'薪资偏低',url:Z+'5c1cbb7d419b591a0nB73ty7GFFX.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
-{g:'x',t:1,co:'华为',job:'人因与用户体验工程师（人因研究方向）',city:'深圳 / 东莞等',ch:'华为校招官网',req:'专业含医学工程 / 生理学、心理学、人因工程等；人因实验、数据统计、AI 建模，研究“健康舒适”体验',fit:'她符合华为 2027 届校招条件',gap:'偏人因和体验研究，属于跨专业',pay:"博士年包约 35–60 万（参考）",paySrc:"华为博士校招普遍年包，不是这个岗位的实报",payUrl:"https://www.nowcoder.com/feed/main/detail/9bd2c625c2b2435cb6d34fc19c672ab1",dl:"官网无统一截止",dlNote:"第三方称 27 届主批 10-14 截止；先上 career.huawei.com 看岗位还在不在",src:''},
-{g:'x',t:2,co:'华大基因',job:'大健康产品经理',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'本科以上；多组学检测报告的解读咨询，同时收集用户需求反哺产品',fit:'能用上组学背景',gap:'门槛是本科，偏咨询和服务',url:Z+'df18cbd31e39e63f0nJ439S4FVNX.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",src:''},
+{g:'x',t:1,co:'华为',job:'人因与用户体验工程师（人因研究方向）',city:'深圳 / 东莞等',ch:'华为校招官网',req:'专业含医学工程 / 生理学、心理学、人因工程等；人因实验、数据统计、AI 建模，研究“健康舒适”体验',fit:'她符合华为 2027 届校招条件',gap:'偏人因和体验研究，属于跨专业',pay:"博士年包约 35–60 万（参考）",paySrc:"华为博士校招普遍年包，不是这个岗位的实报",payUrl:"https://www.nowcoder.com/feed/main/detail/9bd2c625c2b2435cb6d34fc19c672ab1",dl:"官网无统一截止",dlNote:"第三方称 27 届主批 10-14 截止；先上 career.huawei.com 看岗位还在不在",note:"在 career.huawei.com → 校园招聘 搜“人因”投递；华为对同时投递的岗位数有限制，投前确认岗位还在。",tel:["公众号：华为招聘"],src:''},
+{g:'x',t:2,co:'华大基因',job:'大健康产品经理',city:'深圳',pay:'15–30K',ch:'Boss直聘',req:'本科以上；多组学检测报告的解读咨询，同时收集用户需求反哺产品',fit:'能用上组学背景',gap:'门槛是本科，偏咨询和服务',url:Z+'df18cbd31e39e63f0nJ439S4FVNX.html',dl:"招满即止",dlNote:"Boss 直聘 11-22 核实：仍在招",note:"Boss 上直接和 HR 沟通；同一家公司的校招官网 genomics.zhiye.com 也能搜到相关岗位。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
 {g:'x',t:'w',co:'腾讯',job:'青云计划「腾讯健康-医疗大模型的相关研究」',city:'深圳 / 北京',pay:'未公开',ch:'2027 届校招',gap:'官网 JD 是空的；顶尖人才计划，一般要 AI 方向顶会论文，竞争激烈',dl:"招满即止",dlNote:"7-15 开放、招满即止；提前批 9-05 已过",src:''},
 {g:'x',t:'w',co:'深圳某大型互联网上市公司',job:'医疗 AI 产品经理',city:'深圳',pay:'25–40K·16薪',gap:'要 3 年互联网医疗产品经验',dl:"招满即止",dlNote:"没有复核",src:''},
 {g:'x',t:0,co:'OPPO / 某智能硬件公司',job:'健康算法工程师、女性健康算法',city:'',gap:'要 3–5 年算法研发经验和嵌入式、信号处理能力',src:''},
 {g:'x',t:0,co:'中康数字',job:'医学数据专员（27 届校招）',city:'',gap:'只招 2027 届，她是 2026 届',src:''},
 {g:'x',t:0,co:'字节 小荷健康',job:'AI 医疗产品经理、医学科研实习等',city:'北京 / 上海',gap:'岗位都在北京和上海；字节 27 届范围也不含她',src:''},
 /* ---------- 大厂官网 首推 ---------- */
-{g:'web',t:1,co:'华大',job:'临床科研主管/经理（2027 届）',city:'深圳',ch:'校招',req:'医学、生物相关硕士以上；英语好；R/Python/SQL 做数据清洗、统计建模、可视化，RedCap / CDISC 优先，懂 AI 加分。职责：临床科研课题顶层设计、方案、论文投稿、基金申报，和三甲医院 PI 合作',fit:'最对口：临床 + 组学分析 + R/Python + 论文写作，全部用得上',pay:"约 18–32K/月（参考）",paySrc:"华大同类社招岗 18–23K；职友集华大博士均值约 32K",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（11-06 更新）",src:''},
-{g:'web',t:1,co:'华大',job:'临床科研经理（心脑血管 / 肿瘤）',city:'深圳',ch:'校招',req:'博士；2 年以上科研项目经验（博士期间的也算）；一作或共一的高水平论文；多组学分析优先',fit:'博士期间的课题和两篇共一可以直接对上',pay:"约 18–32K/月（参考）",paySrc:"华大同类社招岗 18–23K；职友集华大博士均值约 32K",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（11-06 更新）",src:''},
+{g:'web',t:1,co:'华大',job:'临床科研主管/经理（2027 届）',city:'深圳',ch:'校招',req:'医学、生物相关硕士以上；英语好；R/Python/SQL 做数据清洗、统计建模、可视化，RedCap / CDISC 优先，懂 AI 加分。职责：临床科研课题顶层设计、方案、论文投稿、基金申报，和三甲医院 PI 合作',fit:'最对口：临床 + 组学分析 + R/Python + 论文写作，全部用得上',pay:"约 18–32K/月（参考）",paySrc:"华大同类社招岗 18–23K；职友集华大博士均值约 32K",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（11-06 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28952 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
+{g:'web',t:1,co:'华大',job:'临床科研经理（心脑血管 / 肿瘤）',city:'深圳',ch:'校招',req:'博士；2 年以上科研项目经验（博士期间的也算）；一作或共一的高水平论文；多组学分析优先',fit:'博士期间的课题和两篇共一可以直接对上',pay:"约 18–32K/月（参考）",paySrc:"华大同类社招岗 18–23K；职友集华大博士均值约 32K",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（11-06 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28944 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
 {g:'web',t:1,co:'迈瑞',job:'PHD08 临床工程师（临床医学与检验医学方向）（博士）',city:'深圳',ch:'2027 届博士专招',req:'博士，临床 / 检验 / 基础医学；英语好；熟悉常见病诊疗和检验项目的临床应用；了解医学统计。职责：IVD 产品的临床需求、产品开发、临床性能评价（注册临床）',fit:'临床医学博士直接对口',gap:'方向是 IVD，不是骨科',pay:"约 20–35K/月（参考）",paySrc:"职友集：迈瑞临床工程师 20–30K 占 69%，迈瑞博士均值 31.8K",payUrl:"https://www.jobui.com/company/7655/salary/j/linchuanggongchengshi/",dl:"秋招批次已过",dlNote:"博士优招网申 10-21 截止，但官网 11-22 岗位仍挂着：直接投或找 HR 问",src:''},
-{g:'web',t:1,co:'迈瑞',job:'PHD10 学术专员（超声影像产品）（博士）',city:'深圳',ch:'2027 届博士专招',req:'博士，临床医学 / 医学影像；科研方法学扎实；能和临床专家合作',fit:'肌骨超声在运动医学里常用，可以作为切入点',gap:'偏学术推广和临床研究',pay:"约 25–35K/月（参考）",paySrc:"职友集：迈瑞博士月薪均值 31.8K",payUrl:"https://www.jobui.com/company/7655/salary/boshi/",dl:"秋招批次已过",dlNote:"博士优招网申 10-21 截止，但官网 11-22 岗位仍挂着：直接投或找 HR 问",src:''},
+{g:'web',t:1,co:'迈瑞',job:'PHD10 学术专员（超声影像产品）（博士）',city:'深圳',ch:'2027 届博士专招',req:'博士，临床医学 / 医学影像；科研方法学扎实；能和临床专家合作',fit:'肌骨超声在运动医学里常用，可以作为切入点',gap:'偏学术推广和临床研究',pay:"约 25–35K/月（参考）",paySrc:"职友集：迈瑞博士月薪均值 31.8K",payUrl:"https://www.jobui.com/company/7655/salary/boshi/",dl:"秋招批次已过",dlNote:"博士优招网申 10-21 截止，但官网 11-22 岗位仍挂着：直接投或找 HR 问",note:"在 career.mindray.com/campus/jobs 搜 J18922 投递。博士优招批次 10-21 已截止，但岗位还挂着，投之前先发邮件问。",tel:["校招邮箱 campus@mindray.com", "公众号：迈瑞招聘"],src:''},
 {g:'web',t:1,co:'东阳光',job:'医学经理',city:'东莞',ch:'官网',req:'博士，临床方向；熟悉 GCP 和临床试验流程，有医学写作或临床研究经验优先；CET-6',fit:'没写经验年限',gap:'要补 GCP 证书；官网未标地点（集团总部在东莞），要问',pay:"博士年薪 33 万起",paySrc:"东阳光集团 2026 届校招简章（博士标准年薪）；东莞另有博士人才补贴",payUrl:"https://yjsc.hunnu.edu.cn/__local/7/BD/6E/FFAC9099D62F143629AA20B657E_4AD7E727_97928.pdf",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（9-03 更新）",src:''},
-{g:'web',t:1,co:'新产业',job:'临床研究经理',city:'深圳',ch:'官网',req:'博士，临床 / 医学 / 检验 / 生物；数据分析。职责：临床试验方案设计、数据分析、写临床研究报告和论文、专家关系、培训',fit:'和她做过的事高度一致',gap:'要能长期出差',pay:"约 25–30K/月（参考）",paySrc:"职友集：新产业博士月薪均值约 28K",payUrl:"https://www.jobui.com/company/10624617/salary/",dl:"招满即止",dlNote:"官网还挂着，但是 2023-08 发布的老岗位，先问是否真在招",src:''},
-{g:'web',t:1,co:'OPPO',job:'高级生物医学工程师-博士',city:'东莞',ch:'2027 届博士生招聘',req:'掌握生物力学原理，了解健康体适能、人体生理和运动测量；英文好。职责：运动技术和动作分析、各人群运动干预、运动产品研发、产学研合作',fit:'少有的直接用上运动医学的企业岗',gap:'偏运动科学，不是骨科临床',pay:"博士年薪约 40 万+（参考）",paySrc:"OPPO 博士生招聘称优秀博士年薪 45 万起；健康类岗位没见实报",payUrl:"https://www.gaoxiaojob.com/announcement/detail/331872.html",dl:"招满即止",dlNote:"OPPO 博士通道 7-15 起长期开放，越早投越好",src:''},
-{g:'web',t:1,co:'康方',job:'医学联络官 MSL',city:'广州',ch:'校招页',req:'药学、药理、临床医学硕士 / 博士应届生',fit:'明确招应届博士',gap:'对外沟通为主（KOL、学术会议）；2026-04 发布，要确认是否还在招',pay:"12–18K·14 薪",paySrc:"猎聘：康方 MSL 校招岗（应届）",payUrl:"https://www.liepin.com/job/1933812357.shtml",dl:"2026-12-31",dlNote:"康方 2026 秋季校招截止 12-31（第三方）；岗位 3–4 月发布，先确认还招",src:''},
+{g:'web',t:1,co:'新产业',job:'临床研究经理',city:'深圳',ch:'官网',req:'博士，临床 / 医学 / 检验 / 生物；数据分析。职责：临床试验方案设计、数据分析、写临床研究报告和论文、专家关系、培训',fit:'和她做过的事高度一致',gap:'要能长期出差',pay:"约 25–30K/月（参考）",paySrc:"职友集：新产业博士月薪均值约 28K",payUrl:"https://www.jobui.com/company/10624617/salary/",dl:"招满即止",dlNote:"官网还挂着，但是 2023-08 发布的老岗位，先问是否真在招",note:"官网 snibe.zhiye.com 投递。这是 2023 年挂出的老岗，先发邮件或打电话问是否还在招。",tel:["招聘邮箱 hr@snibe.cn", "招聘电话 0755-23256271 / 23256999", "公众号：新产业生物微招聘"],src:''},
+{g:'web',t:1,co:'OPPO',job:'高级生物医学工程师-博士',city:'东莞',ch:'2027 届博士生招聘',req:'掌握生物力学原理，了解健康体适能、人体生理和运动测量；英文好。职责：运动技术和动作分析、各人群运动干预、运动产品研发、产学研合作',fit:'少有的直接用上运动医学的企业岗',gap:'偏运动科学，不是骨科临床',pay:"博士年薪约 40 万+（参考）",paySrc:"OPPO 博士生招聘称优秀博士年薪 45 万起；健康类岗位没见实报",payUrl:"https://www.gaoxiaojob.com/announcement/detail/331872.html",dl:"招满即止",dlNote:"OPPO 博士通道 7-15 起长期开放，越早投越好",note:"careers.oppo.com → 校园招聘 → 博士生板块“马上启程”，或公众号“OPPO招聘”。流程：简历筛选 → 测评 → 笔试 & AI 面试 → 面试 → offer。",tel:["公众号：OPPO招聘"],src:''},
+{g:'web',t:1,co:'康方',job:'医学联络官 MSL',city:'广州',ch:'校招页',req:'药学、药理、临床医学硕士 / 博士应届生',fit:'明确招应届博士',gap:'对外沟通为主（KOL、学术会议）；2026-04 发布，要确认是否还在招',pay:"12–18K·14 薪",paySrc:"猎聘：康方 MSL 校招岗（应届）",payUrl:"https://www.liepin.com/job/1933812357.shtml",dl:"2026-12-31",dlNote:"康方 2026 秋季校招截止 12-31（第三方）；岗位 3–4 月发布，先确认还招",note:"康方官网 akesobio.com → 加入我们 → 校园招聘；岗位 2026-04 发布，先发邮件确认还招不招。24365 上 11-17 新发的“上市前医学经理（中山）”写明收应届，可以一起投。",tel:["招聘邮箱 hr@akesobio.com"],src:''},
 {g:'web',t:1,co:'康方',job:'肿瘤医学经理 / 医学专员',city:'广州 / 中山',ch:'校招页',req:'临床医学硕士以上，可接受优秀应届；了解抗肿瘤药临床研究。职责：写方案和 IB、医学监查、SAE 审核',fit:'可接受应届',gap:'要补肿瘤药物开发知识；2026-03 发布，要确认',pay:"12–22K/月",paySrc:"猎聘：康方中山 / 广州肿瘤医学经理/专员 12–22K（海珠另一岗 20–25K）",payUrl:"https://www.liepin.com/company-jobs/8275623/",dl:"2026-12-31",dlNote:"康方 2026 秋季校招截止 12-31（第三方）；岗位 3 月发布，先确认还招",src:''},
-{g:'web',t:1,co:'华润三九',job:'学术助理经理（研发中心-水滴实验室）',city:'深圳',ch:'2027 届校招',req:'硕士以上，医学、药学、中医药优先；文献检索和循证研究能力；会用 AI 工具做文献和证据梳理。职责：OTC 品类学术资料和证据库建设',fit:'写论文、查文献是她的强项',gap:'偏学术支持，不是临床研究；届别要问 HR（两年择业期条款）',pay:"约 15–20K/月（参考）",paySrc:"职友集：华润三九博士月薪均值约 17K，深圳约 15.7K",payUrl:"https://www.jobui.com/company/8101899/salary/edu4/",dl:"招满即止",dlNote:"华润 27 届网申 10-16 开放、招满即止",src:''},
+{g:'web',t:1,co:'华润三九',job:'学术助理经理（研发中心-水滴实验室）',city:'深圳',ch:'2027 届校招',req:'硕士以上，医学、药学、中医药优先；文献检索和循证研究能力；会用 AI 工具做文献和证据梳理。职责：OTC 品类学术资料和证据库建设',fit:'写论文、查文献是她的强项',gap:'偏学术支持，不是临床研究；届别要问 HR（两年择业期条款）',pay:"约 15–20K/月（参考）",paySrc:"职友集：华润三九博士月薪均值约 17K，深圳约 15.7K",payUrl:"https://www.jobui.com/company/8101899/salary/edu4/",dl:"招满即止",dlNote:"华润 27 届网申 10-16 开放、招满即止",note:"走华润集团 27 届校招统一入口 runjob.crc.com.cn（10-16 开放，招满即止）。投前先问是否接受 2026-08 毕业、未就业的博士（“两年择业期”条款）。",tel:["招聘邮箱 recruit@999.com.cn", "招聘电话 0755-83360999", "公众号：华润三九招聘与配置"],src:''},
 /* 大厂官网 可投 */
-{g:'web',t:2,co:'华大',job:'高级临床科研经理（校招通道）',city:'深圳',ch:'校招',req:'985 或海外名校博士（中南符合）+ 一作 / 通讯 IF>10 论文',gap:'Bone Research IF>10，但要等 2027 年 1–2 月接收；共一能否算“一作”要问 HR',pay:"约 25–40K/月（参考）",paySrc:"职友集：华大博士均值约 32K；高级岗按上限估",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（10-29 更新）",src:''},
-{g:'web',t:2,co:'新产业',job:'医学科学事务经理',city:'深圳',ch:'官网',req:'硕士以上，临床医学可投；SCI ≥1 篇一作或通讯',gap:'偏医院背景；共一要看 HR 认不认',pay:"年薪 18–36 万",paySrc:"应届生求职网上新产业自己标的薪资（硕士、无需经验）",payUrl:"https://q.yingjiesheng.com/jobdetail/160443546.html",dl:"招满即止",dlNote:"官网还挂着（2024-12 发布），先问是否还招",src:''},
-{g:'web',t:2,co:'华大',job:'仪器开发工程师 / 智惠研发培训生（2027 届）',city:'深圳',ch:'校招',req:'专业写了临床医学、运动人体科学、康复医学；做可穿戴健康监测，要懂慢病生理、统计、PPG / ECG / IMU 信号和机器学习',gap:'跨专业，信号处理要补',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（9-15 更新）",src:''},
-{g:'web',t:2,co:'华大',job:'医学高潜人才（2027 届）',city:'深圳',ch:'校招',req:'医学硕士以上，没有经验门槛',gap:'工作是医学产品定位、文案、定价和推广，偏市场',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（10-28 更新）",src:''},
-{g:'web',t:2,co:'华大',job:'生化开发工程师（单细胞测序）-深圳（2027 届）',city:'深圳',ch:'校招',fit:'单细胞课题经验是优先条件',gap:'偏湿实验试剂开发',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（9-15 更新）",src:''},
+{g:'web',t:2,co:'华大',job:'高级临床科研经理（校招通道）',city:'深圳',ch:'校招',req:'985 或海外名校博士（中南符合）+ 一作 / 通讯 IF>10 论文',gap:'Bone Research IF>10，但要等 2027 年 1–2 月接收；共一能否算“一作”要问 HR',pay:"约 25–40K/月（参考）",paySrc:"职友集：华大博士均值约 32K；高级岗按上限估",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（10-29 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28885 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。 共一论文能否算“一作”要先问。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
+{g:'web',t:2,co:'新产业',job:'医学科学事务经理',city:'深圳',ch:'官网',req:'硕士以上，临床医学可投；SCI ≥1 篇一作或通讯',gap:'偏医院背景；共一要看 HR 认不认',pay:"年薪 18–36 万",paySrc:"应届生求职网上新产业自己标的薪资（硕士、无需经验）",payUrl:"https://q.yingjiesheng.com/jobdetail/160443546.html",dl:"招满即止",dlNote:"官网还挂着（2024-12 发布），先问是否还招",note:"官网 snibe.zhiye.com 投递；应届生求职网上也有这个岗位（标价 18–36 万）。",tel:["招聘邮箱 hr@snibe.cn", "招聘电话 0755-23256271 / 23256999", "公众号：新产业生物微招聘"],src:''},
+{g:'web',t:2,co:'华大',job:'仪器开发工程师 / 智惠研发培训生（2027 届）',city:'深圳',ch:'校招',req:'专业写了临床医学、运动人体科学、康复医学；做可穿戴健康监测，要懂慢病生理、统计、PPG / ECG / IMU 信号和机器学习',gap:'跨专业，信号处理要补',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（9-15 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28698 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
+{g:'web',t:2,co:'华大',job:'医学高潜人才（2027 届）',city:'深圳',ch:'校招',req:'医学硕士以上，没有经验门槛',gap:'工作是医学产品定位、文案、定价和推广，偏市场',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（10-28 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28874 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
+{g:'web',t:2,co:'华大',job:'生化开发工程师（单细胞测序）-深圳（2027 届）',city:'深圳',ch:'校招',fit:'单细胞课题经验是优先条件',gap:'偏湿实验试剂开发',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（9-15 更新）",note:"在华大校招官网 genomics.zhiye.com/campus 搜岗位编号 J28626 投递，或走公众号。华大要求“毕业后没有全职工作经历”，入职别处前先投。",tel:["公众号：华大集团招聘BGIRecruiting"],src:''},
 {g:'web',t:2,co:'华大',job:'医学研究型人才（医学 AI / 多组学）',city:'',ch:'官网',gap:'要临床经历或规培背景，她没有规培',pay:"约 20–35K/月（参考）",paySrc:"职友集：华大博士月薪均值约 32K，20–30K 占 48%",payUrl:"https://www.jobui.com/company/12615994/salary/edu4/",dl:"招满即止",dlNote:"官网 11-22 核实：仍在招（10-16 更新）",src:''},
 {g:'web',t:0,co:'金域',job:'27 届校招 AI 培训生（产品）',city:'广州',ch:'校招',req:'硕士以上，医学专业优先；做医检行业的产品需求和原型',gap:"她 2026-08 毕业，不在金域 27 届校招范围（2026-10 至 2027-07 毕业）。跨专业，没有经验门槛",pay:"13–18K/月",paySrc:"金域 27 届校招 AI 培训生（硕士）",payUrl:"https://www.sohu.com/a/1090273432_121123831",dl:"2026-12-30",dlNote:"网申截止 12-30；但只收 2026-10 至 2027-07 毕业",src:''},
 {g:'web',t:0,co:'金域',job:'27 届校招 产品专员',city:'广州',ch:'校招',req:'医学硕士以上',gap:"她 2026-08 毕业，不在金域 27 届校招范围（2026-10 至 2027-07 毕业）。疾病产品线的定位和学术推广，偏市场",pay:"8–12K/月",paySrc:"金域 27 届校招产品专员（硕士）",payUrl:"https://www.sohu.com/a/1090273432_121123831",dl:"2026-12-30",dlNote:"网申截止 12-30；但只收 2026-10 至 2027-07 毕业",src:''},
@@ -466,7 +554,7 @@ const J=[
 {g:'web',t:2,co:'平安科技',job:'算法工程师（医学）（校招）',city:'深圳',ch:'校招',req:'硕士以上，计算机、统计、生物信息、生物医学工程；Python/R + SQL 做医学数据抽取、清洗、分析和疾病预测，也用大模型',fit:'会 R/Python 和组学分析',gap:'专业没写临床医学，要靠项目经历说服 HR',pay:"15–25K/月（参考）",paySrc:"猎聘：平安科技算法工程师 15–25K（硕士）",payUrl:"https://www.liepin.com/company-jobs/1086536/",dl:"2026-10-24",dlNote:"平安科技 27 届网申 8-24 至 10-24，已截止；留意春招",src:''},
 {g:'web',t:2,co:'华润三九',job:'行业研究岗（伏羲实验室）',city:'深圳',ch:'官网',req:'硕士以上，药学 / 生物 / 理科；跟踪抗衰老等科研前沿，写研判报告，对接产学研',gap:'没写年限，咨询或医药行业经验优先',pay:"约 15–20K/月（参考）",paySrc:"职友集：华润三九博士月薪均值约 17K",payUrl:"https://www.jobui.com/company/8101899/salary/edu4/",dl:"招满即止",dlNote:"社招岗，招满即止；没逐个复核",src:''},
 {g:'web',t:2,co:'平安',job:'AI 数据产品经理（医学知识库）（社招）',city:'深圳',ch:'社招',req:'医学专业优先，做医疗 AI 的医学知识库和循证知识库',fit:'方向很对口',gap:'要 3 年以上产品或数据经验',pay:"15–35K·16 薪（参考）",paySrc:"猎聘：平安科技 AI 产品经理 15–25K / 25–35K·16 薪",payUrl:"https://www.liepin.com/company-jobs/1086536/",dl:"招满即止",dlNote:"社招岗，招满即止；没逐个复核",src:''},
-{g:'web',t:2,co:'菲鹏',job:'新药研发科学家（社招）',city:'东莞',ch:'社招',req:'博士，免疫 / 肿瘤生物 / 生信等',gap:'列表写经验不限，但 JD 要项目和团队管理经验，偏抗体药物湿实验',pay:"20–30K·16 薪",paySrc:"智联：菲鹏东莞新药研发科学家（博士，经验不限）",payUrl:"https://m.zhaopin.com/jobs/CC157167210J40884153515.htm",dl:"招满即止",dlNote:"社招岗，招满即止；没逐个复核",src:''},
+{g:'web',t:2,co:'菲鹏',job:'新药研发科学家（社招）',city:'东莞',ch:'社招',req:'博士，免疫 / 肿瘤生物 / 生信等',gap:'列表写经验不限，但 JD 要项目和团队管理经验，偏抗体药物湿实验',pay:"20–30K·16 薪",paySrc:"智联：菲鹏东莞新药研发科学家（博士，经验不限）",payUrl:"https://m.zhaopin.com/jobs/CC157167210J40884153515.htm",dl:"招满即止",dlNote:"社招岗，招满即止；没逐个复核",note:"Moka 网申（app.mokahr.com 搜“菲鹏”）或发邮件；研发岗在东莞松山湖。",tel:["招聘邮箱 faponhr@fapon.com"],src:''},
 {g:'web',t:3,co:'佛山创文生物',job:'SCI 临床医学编辑 / 医学科研工程师',city:'佛山',pay:'15–25K',ch:'丁香人才',req:'硕士，1–3 年',gap:'医学写作和科研服务公司，可作保底',dl:"招满即止",dlNote:"丁香人才岗位，没有复核",src:''},
 /* 大厂官网 不推荐 */
 {g:'web',t:0,co:'腾讯',job:'战略商业分析师',city:'深圳 / 北京 / 广州',ch:'校招',gap:'方向里有“医疗”，但考商业分析和战略咨询，竞争激烈；想试可以投，不算对口',src:''},
@@ -510,7 +598,7 @@ const J=[
 {g:'gov',t:0,co:'中山大学孙逸仙纪念医院',job:'健康管理中心 医教研岗 47',city:'广州',req:'博士；临床医学；“具备较好的临床技能”；≤38 岁',gap:'体检中心大概率要看诊，多半不符合“不看病”',dl:'2026-12-07',src:''},
 /* ---------- 应届生平台（2026-11-22）---------- */
 {g:"med",t:1,co:"中山康方生物医药",job:"上市前医学经理 / 高级专员 / 专员（中山）",city:"中山",pay:"15–20K/月",ch:"24365 国家大学生就业平台",req:"硕士以上，临床医学相关；写临床试验方案（按 NMPA）、IB、ICF、总结报告；医学监查（MMP、eCRF 审核、PD、医学编码）；SAE 医学审核；了解抗肿瘤药临床研究；中英文读写好",fit:"写明“可接受优秀应届毕业生”；方案撰写、文献检索、论文写作都是她的强项",gap:"肿瘤药方向，要补药物临床开发和 GCP 知识；工作地在中山",dl:"招满即止",dlNote:"24365 平台 11-17 发布，招 10 人",url:"https://www.ncss.cn/student/jobs/B9tiRi3USpddTufTwwBj6s/detail.html",src:"应届生平台"},
-{g:"med",t:2,co:"广东博迈医疗科技",job:"【27 届校招】临床工程师",city:"东莞",pay:"15–18K/月",ch:"27 届校招 · 24365",req:"硕士以上，临床医学相关；依据法规做医疗器械临床安全性、有效性评价并写临床评价报告；文献收集与年度评审；有心内科、血管内科、介入科经验更佳",fit:"主要是查文献、写报告，她的写作和循证能力用得上；没有经验门槛",gap:"心血管介入器械方向，不是运动医学；27 届毕业时间范围没写，要问是否收 2026-08 毕业的博士",dl:"招满即止",dlNote:"24365 平台 11-19 发布，招 5 人",url:"https://www.ncss.cn/student/jobs/RhzmeDokMqEvxZgyu2bydf/detail.html",src:"应届生平台"},
+{g:"med",t:2,co:"广东博迈医疗科技",job:"【27 届校招】临床工程师",city:"东莞",pay:"15–18K/月",ch:"27 届校招 · 24365",req:"硕士以上，临床医学相关；依据法规做医疗器械临床安全性、有效性评价并写临床评价报告；文献收集与年度评审；有心内科、血管内科、介入科经验更佳",fit:"主要是查文献、写报告，她的写作和循证能力用得上；没有经验门槛",gap:"心血管介入器械方向，不是运动医学；27 届毕业时间范围没写，要问是否收 2026-08 毕业的博士",dl:"招满即止",dlNote:"24365 平台 11-19 发布，招 5 人",url:"https://www.ncss.cn/student/jobs/RhzmeDokMqEvxZgyu2bydf/detail.html",note:"Moka 网申（app.mokahr.com 搜“博迈”）或 24365 投递；邮件标题写“应聘岗位 + 姓名”，一般 7 个工作日内回复。先问 27 届是否收 2026-08 毕业的博士。",tel:["招聘邮箱 hr@brosmed.com", "公司电话 0769-22892018"],src:"应届生平台"},
 {g:"med",t:2,co:"深圳惠泰医疗器械",job:"医学经理 / 医学研究员（MJ000269）",city:"深圳",pay:"15–25K·16 薪",ch:"应届生求职网",req:"硕士以上，临床医学；英语；医学写作、临床评价（CER）、MSL 相关；心脏电生理、心律失常方向",fit:"标注“无需经验”，比之前看到的惠泰医学专员（要 3 年）门槛低得多",gap:"心脏电生理方向，要补；投之前看完整 JD",dl:"招满即止",dlNote:"应届生求职网 11-22 在挂",url:"https://q.yingjiesheng.com/jobdetail/169392033.html",src:"应届生平台"},
 {g:"med",t:2,co:"上海联影医疗科技",job:"科研合作专家 - 深圳（J19699）",city:"深圳",pay:"未显示",ch:"应届生求职网 · 校招",req:"硕士以上；面向在校生 / 应届生；和医院做科研合作（影像设备临床研究）",fit:"联影的科研合作岗本质是和临床医生合作做研究、发论文，契合她的科研背景",gap:"偏医学影像；薪资和 27 届毕业时间范围都没写，要问",dl:"招满即止",dlNote:"应届生求职网 11-22 在挂",url:"https://q.yingjiesheng.com/jobdetail/173249072.html",src:"应届生平台"},
 {g:"med",t:3,co:"深圳市康哲药业",job:"医学管培生（心肾代谢及消化业务）- 27 届校招",city:"深圳",pay:"10–15K/月",ch:"应届生求职网 · 27 届校招",req:"硕士以上，临床医学；CET-6；循证医学、临床研究",fit:"校招通道、临床医学对口",gap:"管培生起薪偏低；27 届毕业时间范围要确认",dl:"招满即止",dlNote:"应届生求职网 11-22 在挂",url:"https://q.yingjiesheng.com/jobdetail/173791646.html",src:"应届生平台"},
@@ -525,7 +613,7 @@ const J=[
 {g:"gov",t:3,co:"深圳市计量质量检测研究院",job:"前沿计量检测技术研究员（精准医学检测领域）",city:"深圳",pay:"15–33K/月",ch:"24365",req:"博士；化学、生物学、生物医学工程、药学",gap:"专业没写临床医学，要问",dl:"招满即止",dlNote:"24365 平台 11-12 发布",url:"https://www.ncss.cn/student/jobs/5Lb3fRWhPjNzFQWf6fgras/detail.html",src:"应届生平台"},
 {g:"gov",t:3,co:"深圳医学科学院",job:"副研究员 / 助理研究员（分子认知实验室）",city:"深圳",pay:"25–42K/月",ch:"应届生求职网",req:"博士；神经科学、脑电、数据分析、论文撰写",gap:"神经科学方向，和她的课题差得远",dl:"长期有效",dlNote:"应届生求职网 11-22 在挂",url:"https://q.yingjiesheng.com/jobdetail/169632192.html",src:"应届生平台"},
 /* ---------- 中南大学就业网（2026-11-22）---------- */
-{g:"med",t:1,co:"深圳信立泰药业",job:"医学专员 / 助理医学经理（博士）",city:"深圳 / 惠州 / 北京等",pay:"2 万+/月",ch:"中南大学就业网（用学校账号登录投递） · 2027 届校招",req:"两个岗位都只招【博士】临床医学，各 2 人；同一份校招还有药物警戒、临床监查、药理毒理等岗位",fit:"专门写明招临床医学博士，薪资档在 2 万以上；国内心血管创新药企，深圳总部",gap:"JD 职责没展开写；工作地列了深圳、惠州、北京、苏州、德州，要问医学岗在哪个城市",dl:"招满即止",dlNote:"中南就业网 9-24 发布；11-01 湘雅医学专场也有“医学（博士临床医学，2 万+）”岗",url:"https://career.csu.edu.cn/campus/view/id/590320",src:"中南就业网"},
+{g:"med",t:1,co:"深圳信立泰药业",job:"医学专员 / 助理医学经理（博士）",city:"深圳 / 惠州 / 北京等",pay:"2 万+/月",ch:"中南大学就业网（用学校账号登录投递） · 2027 届校招",req:"两个岗位都只招【博士】临床医学，各 2 人；同一份校招还有药物警戒、临床监查、药理毒理等岗位",fit:"专门写明招临床医学博士，薪资档在 2 万以上；国内心血管创新药企，深圳总部",gap:"JD 职责没展开写；工作地列了深圳、惠州、北京、苏州、德州，要问医学岗在哪个城市",dl:"招满即止",dlNote:"中南就业网 9-24 发布；11-01 湘雅医学专场也有“医学（博士临床医学，2 万+）”岗",url:"https://career.csu.edu.cn/campus/view/id/590320",note:"三条渠道任选：中南大学就业网（学校账号登录投递）、官网 salubris.zhiye.com → 校园招聘、公众号“信立泰药业招聘”。发邮件时主题写“学校 + 应聘岗位”。",tel:["招聘邮箱 HR.recruiting@salubris.com", "公众号：信立泰药业招聘"],src:"中南就业网"},
 {g:"gov",t:2,co:"广东省人民医院",job:"专职科研人员（50 人）",city:"广州",pay:"2 万+/月",ch:"中南大学就业网（用学校账号登录投递）",req:"【博士】临床医学、生物与医药",fit:"不看病的专职科研岗，名额多；省级三甲平台",gap:"在医院里；是否要规培、是否事业编都没写，要问",dl:"招满即止",dlNote:"中南 11-01 湘雅医学专场的参展岗位，可在线投递",url:"https://career.csu.edu.cn/jobfair/view/id/34726",src:"中南就业网"},
 {g:"gov",t:3,co:"南方医科大学珠江医院",job:"专职研究人员（10 人）",city:"广州",pay:"12.5–15K/月",ch:"中南大学就业网（用学校账号登录投递）",req:"不限专业（博士）",fit:"专职科研岗，不看病；珠江医院也代管南医康复医学院",gap:"薪资档偏低；在医院里",dl:"招满即止",dlNote:"中南 11-01 湘雅医学专场的参展岗位，可在线投递",url:"https://career.csu.edu.cn/jobfair/view/id/34726",src:"中南就业网"},
 {g:"gov",t:3,co:"汕头大学医学院第一附属医院",job:"专职科研岗（10 人）",city:"汕头",pay:"2 万+/月",ch:"中南大学就业网（用学校账号登录投递）",req:"不限专业",fit:"专职科研岗，不看病",gap:"在医院里；汕头",dl:"招满即止",dlNote:"中南 11-01 湘雅医学专场的参展岗位，可在线投递",url:"https://career.csu.edu.cn/jobfair/view/id/34726",src:"中南就业网"},
