@@ -90,8 +90,12 @@ section.panel{display:flex;flex-direction:column;gap:32px}
 .funnel .f .mono{font-size:15px}
 .funnel .f.total{border-bottom:1px solid var(--ink);font-weight:500}
 .funnel .f.keep .mono{color:var(--accent);font-weight:600}
+.funnel .fg{font-size:12px;letter-spacing:.06em;color:var(--faint);font-weight:500;padding-top:14px}
+.funnel .fg:first-child{padding-top:0}
+.bar .stack{display:flex;height:14px;border-radius:0 3px 3px 0;overflow:hidden}
+.bar .stack span{display:block;height:100%}
 .bars{display:flex;flex-direction:column;gap:7px}
-.bar{display:grid;grid-template-columns:8.5em 1fr 4.5em;gap:10px;align-items:center;font-size:13px}
+.bar{display:grid;grid-template-columns:8.5em 1fr 6.8em;gap:10px;align-items:center;font-size:13px}
 .bar .lab{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar .lab.em{color:var(--ink);font-weight:500}
 .bar .track{height:14px;position:relative}
@@ -223,21 +227,33 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
   </div>
 
   <div>
-    <div class="sec-h"><h2>数据从哪来</h2><p>平台岗位按岗位族粗分，初筛分按标题打，以 JD 为准</p></div>
+    <div class="sec-h"><h2>数据从哪来</h2><p>只收广东、不看病、不是博士后、不要规培证的岗位；薪资和截止日核对到 2026-11-22</p></div>
     <div class="stats">
       <div class="funnel">
-        <div class="f"><span>Boss直聘（深广莞珠佛，医学 + 跨专业关键词）</span><span class="mono">3,086</span></div>
-        <div class="f"><span>猎聘（广东 + 博士）</span><span class="mono">1,609</span></div>
-        <div class="f total"><span>平台合计（去重后）</span><span class="mono">4,695</span></div>
-        <div class="f keep"><span>去掉博士后 / 医院临床 / 销售 / 非医学后</span><span class="mono">1,083</span></div>
-        <div class="f keep"><span>逐条看过 JD</span><span class="mono">42</span></div>
-        <div class="f"><span>企业官网（17 家 + 丁香人才）</span><span class="mono">逐家查</span></div>
+        <div class="fg">招聘平台（以社招为主）</div>
+        <div class="f"><span>Boss直聘 + 猎聘，医学和跨专业关键词，去重后</span><span class="mono">4,695</span></div>
+        <div class="f"><span>去掉博士后、医院临床、销售、非医学岗后</span><span class="mono">1,083</span></div>
+        <div class="f keep"><span>逐条读过 JD</span><span class="mono">42</span></div>
+        <div class="fg">企业官网</div>
+        <div class="f"><span>腾讯、华为、OPPO、vivo、荣耀、平安、迈瑞、华大、金域、东阳光、新产业、康方、万孚、健康元、达安、华润三九、菲鹏 + 丁香人才</span><span class="mono">17 家</span></div>
+        <div class="fg">体制内</div>
         <div class="f"><span>高校人才网（广东 + 18 个关键词）</span><span class="mono">2,621</span></div>
         <div class="f keep"><span>去掉博士后、临床、行政后逐个读详情</span><span class="mono">805</span></div>
+        <div class="f"><span>省人社厅、各校人事处、深圳卫健委公告逐个核对</span><span class="mono">约 40 家</span></div>
+        <div class="fg">应届生平台</div>
+        <div class="f"><span>国家大学生就业服务平台 24365（广东 10 个城市）</span><span class="mono">2,107</span></div>
+        <div class="f"><span>应届生求职网、博士引进网（广东分站）</span><span class="mono">约 270</span></div>
+        <div class="fg">中南大学就业网</div>
+        <div class="f"><span>招聘公告（其中广东 212 条）</span><span class="mono">约 1,200</span></div>
+        <div class="f"><span>11-01 湘雅医学专场参展岗位（广东 87 家单位）</span><span class="mono">1,664</span></div>
+        <div class="fg">核实</div>
+        <div class="f"><span>Boss、猎聘和官网岗位 11-22 逐个确认仍在招；工资和截止日逐条注明来源</span><span class="mono">11-22</span></div>
+        <div class="f total keep"><span>最终收进岗位库（不含“不推荐”）</span><span class="mono" id="liveTotal"></span></div>
       </div>
       <div>
+        <div class="eyebrow" style="margin-bottom:10px">岗位库构成</div>
         <div class="bars" id="bars"></div>
-        <div class="legend"><span><i style="background:var(--sunk)"></i>岗位数</span><span><i style="background:var(--accent)"></i>初筛 ≥7 分</span></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>首推</span><span><i style="background:var(--accent);opacity:.45"></i>可投</span><span><i style="background:var(--faint);opacity:.55"></i>备选</span><span><i style="background:var(--warn)"></i>观望</span></div>
       </div>
     </div>
   </div>
@@ -535,9 +551,12 @@ function domain(u){if(!u)return'';if(u.includes('zhipin'))return'Boss直聘原�
   const up=J.filter(j=>j.days!=null&&j.days>=0&&j.t!==0).sort((a,b)=>a.days-b.days).slice(0,8);
   $('#dlStrip').innerHTML=up.map(j=>{const c=j.days<=14?'hot':j.days<=45?'mid':'';
     return `<button class="dl-card" data-go="${j.i}"><span class="d ${c}">D-${j.days}<small>${j.dl.slice(5)}</small></span><span><span class="c">${esc(j.co)}</span><span class="j" style="display:block">${esc(j.job)}</span></span></button>`}).join('');
-  const fam=[['研发科学家 / 研究员',318,40],['医学事务 / MSL',218,47],['医疗 AI / 数据 / 产品',140,6,1],['健康科学（消费电子 / 营养）',58,10],['医学写作 / 编辑',58,0],['生信 / 数据 / AI',51,7],['临床研究 / 临床开发',47,20],['投资 / 行研 / BD',39,0],['注册 / 药物警戒 / 专利',16,0],['其他（未归类）',138,0]];
-  const max=318;
-  $('#bars').innerHTML=fam.map(([n,a,h,em])=>`<div class="bar"><span class="lab${em?' em':''}" title="${n}">${n}</span><span class="track"><span class="all" style="width:${a/max*100}%"></span><span class="hi" style="width:${h/max*100}%"></span></span><span class="v">${a} / ${h}</span></div>`).join('');
+  const G=[['med','企业 · 医学类'],['x','企业 · 跨专业'],['web','大厂官网'],['gov','体制内']];
+  const T=[[1,'var(--accent)',1],[2,'var(--accent)',.45],[3,'var(--faint)',.55],['w','var(--warn)',1]];
+  const rows=G.map(([g,n])=>{const js=J.filter(j=>j.g===g&&j.t!==0);return {n,total:js.length,c:T.map(([t])=>js.filter(j=>j.t===t).length)}});
+  const max=Math.max(...rows.map(r=>r.total));
+  $('#bars').innerHTML=rows.map(r=>`<div class="bar"><span class="lab">${r.n}</span><span class="track"><span class="stack" style="width:${r.total/max*100}%">${r.c.map((c,i)=>c?`<span style="flex:${c};background:${T[i][1]};opacity:${T[i][2]}" title="${['首推','可投','备选','观望'][i]} ${c}"></span>`:'').join('')}</span></span><span class="v">${r.c[0]} / ${r.c[1]} / ${r.total}</span></div>`).join('')+'<p style="font-size:12px;color:var(--faint);margin:8px 0 0">数字是 首推 / 可投 / 合计</p>';
+  $('#liveTotal').textContent=J.filter(j=>j.t!==0).length+' 个';
 })();
 
 /* ---------- job board ---------- */
