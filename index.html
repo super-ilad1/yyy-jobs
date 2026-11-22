@@ -188,6 +188,21 @@ tr:last-child td{border-bottom:0}
 td.ok{color:var(--accent);font-weight:500;white-space:nowrap}
 td.no{color:var(--urgent);font-weight:500;white-space:nowrap}
 td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.kpis div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.kpis .mono{font-size:24px;font-weight:600;color:var(--ink)}
+.kpis small{font-size:12.5px;color:var(--muted)}
+.lead{margin:12px 0 0;color:var(--muted);font-size:14px}
+.route{padding-block:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.route:first-of-type{border-top:0;padding-top:0}
+.route h3{font-size:16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.route h3 em{font:400 12.5px var(--sans);font-style:normal;color:var(--faint)}
+.route .rk{color:var(--accent);font-family:var(--sans)}
+.route p,.route ul{margin:0;font-size:14px}
+.route ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.note2{color:var(--muted);font-size:13.5px}
+.jlink{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 40%,transparent);text-underline-offset:3px;text-align:left}
+.jlink:hover{text-decoration-color:var(--accent)}
 .callout{border-left:3px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 6px 6px 0;font-size:14px}
 .lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .lessons div h3{font-size:15px;margin-bottom:6px}
@@ -210,13 +225,13 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
     <h1>YYY医博求职岗位库</h1>
     <div class="who"><b>临床医学博士</b>（运动医学方向）· 2026 年 8 月毕业 · 广东 · 不看病、不做博士后、无规培证</div>
   </div>
-  <div class="stamp">数据核对于 <span class="mono">2026-11-21</span><br>倒计时按今天 <span class="mono" id="today"></span> 计算</div>
+  <div class="stamp">数据核对于 <span class="mono">2026-11-22</span><br>倒计时按今天 <span class="mono" id="today"></span> 计算</div>
 </header>
 
 <nav class="tabs" role="tablist" aria-label="页面分区">
   <button role="tab" id="tab-overview" data-tab="overview">总览</button>
   <button role="tab" id="tab-jobs" data-tab="jobs">岗位库<span class="n" id="tabN"></span></button>
-  <button role="tab" id="tab-rules" data-tab="rules">届别与门槛</button>
+  <button role="tab" id="tab-advice" data-tab="advice">建议和分析</button>
 </nav>
 
 <!-- 总览 -->
@@ -291,40 +306,84 @@ td.ask{color:var(--warn);font-weight:500;white-space:nowrap}
   </div>
 </section>
 
-<!-- 届别与门槛 -->
-<section class="panel" id="p-rules" role="tabpanel" aria-labelledby="tab-rules" hidden>
+<!-- 建议和分析 -->
+<section class="panel" id="p-advice" role="tabpanel" aria-labelledby="tab-advice" hidden>
   <div>
-    <div class="sec-h"><h2>她能不能走 2027 届校招</h2><p>她 2026 年 8 月毕业，各家“2027 届”定义不同</p></div>
-    <div class="tbl"><table>
-      <thead><tr><th>公司</th><th>2027 届校招范围</th><th>结论</th></tr></thead>
-      <tbody>
-        <tr><td>腾讯</td><td class="mono">2026-01-01 至 2027-12-31</td><td class="ok">符合</td></tr>
-        <tr><td>华为</td><td><span class="mono">2026-01-01 至 2027-12-31</span>（博士）</td><td class="ok">符合</td></tr>
-        <tr><td>OPPO 博士生招聘</td><td><span class="mono">2026-01 至 2027-12</span> 全球高校博士；“应届生”通道只收本硕</td><td class="ok">符合，走博士生通道</td></tr>
-        <tr><td>华大集团</td><td><span class="mono">2026-01 至 2027-12</span>，且毕业后无全职工作经历</td><td class="ok">符合</td></tr>
-        <tr><td>vivo 蓝极星（博士专项）</td><td><span class="mono">2026-01 至 2027-12</span>；普通秋招 9-15 已截止</td><td class="ok">符合，但广东无合适岗</td></tr>
-        <tr><td>平安</td><td>官网未写；集团金橙计划 <span class="mono">2026-01-01 至 2027-12-31</span>，平安科技 <span class="mono">2026-06 至 2027-07</span>（第三方转载）</td><td class="ask">大概率符合，投时确认</td></tr>
-        <tr><td>华润集团（含三九）</td><td>“2027 届应届毕业生（含两年择业期内未落实工作单位的毕业生）”（第三方转载）</td><td class="ask">要问 HR</td></tr>
-        <tr><td>字节</td><td class="mono">2026-09 至 2027-08</td><td class="no">不符合，只能社招</td></tr>
-        <tr><td>迈瑞、东阳光、新产业、万孚、金域、荣耀</td><td>官网列表没写；迈瑞 PHD 系列标明“2027 届”</td><td class="ask">投递时确认</td></tr>
-      </tbody>
-    </table></div>
-    <div class="callout" style="margin-top:12px">华大要求“毕业后无全职工作经验”：她 8 月毕业后若先入职别处，就失去校招身份。拿到 offer 前要把握时间。</div>
+    <div class="sec-h"><h2>整体情况</h2><p>按 2026-11-22 的岗位库统计；点岗位名可以跳到表里那一行</p></div>
+    <div class="kpis">
+      <div><span class="mono" id="aTotal"></span><small>岗位（不含不推荐）</small></div>
+      <div><span class="mono" id="aT1"></span><small>首推</small></div>
+      <div><span class="mono" id="aT2"></span><small>可投</small></div>
+      <div><span class="mono" id="aSZ"></span><small>在深圳</small></div>
+    </div>
+    <p class="lead">机会主要集中在深圳，其次是广州；东莞、珠海、中山、梅州、汕头零星分布。</p>
   </div>
 
   <div>
-    <div class="sec-h"><h2>从 JD 里看出的共性门槛</h2></div>
-    <div class="lessons">
-      <div><h3>“经验不限”经常是假的</h3><p>列表写经验不限，JD 里往往写着 1–3 年。投之前一定先看 JD。科兴、爱尔康都是这种情况。</p></div>
-      <div><h3>医学事务 / 临床研究反复出现的技能</h3><p>写临床方案、CRF、CSR；熟悉 GCP 和药物 / 器械临床试验流程；跨部门沟通；英语。</p></div>
-      <div><h3>她可以马上补的</h3><ul>
-        <li>考一个 <b>GCP 培训证书</b>（线上可考，很多岗位写“优先”）</li>
-        <li>简历突出执业医师证、独立设计研究方案、两篇共一、单细胞 / 组学分析</li>
-        <li>R/Python 做过的分析写具体：数据量、工具、结论</li>
-      </ul></div>
-      <div><h3>论文是体制内最大的变量</h3><p>Bone Research（SCI 一区，IF&gt;10）预计 2027 年 1–2 月接收。接收后，嘉应、岭南、深圳湾实验室、广州健康院、遵义医科大学珠海校区、汕头大学医学院、华大高级临床科研经理的门槛都能跨过去。</p></div>
+    <div class="sec-h"><h2>四条路，按现在的成功率排</h2></div>
+    <div class="route">
+      <h3><span class="rk">①</span>企业的医学事务 / 临床研究岗<em>最现实，建议主攻</em></h3>
+      <p>对她最有利的是“明确招博士、不要工作经验”的岗位：</p>
+      <div class="tbl"><table>
+        <thead><tr><th>岗位</th><th>薪资</th><th>为什么值得投</th></tr></thead>
+        <tbody>
+          <tr><td><button class="jlink" type="button" data-find="信立泰|医学专员">信立泰 医学专员 / 助理医学经理</button></td><td class="mono">2 万+</td><td>只招临床医学博士，2027 届校招</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="帝迈生物|高级临床开发工程师">帝迈 高级临床开发工程师（博士专场）</button></td><td class="mono">28–35K·14 薪</td><td>条件完全对得上，<b>12-31 截止</b></td></tr>
+          <tr><td><button class="jlink" type="button" data-find="东阳光|医学经理">东阳光 医学经理</button></td><td class="mono">博士 33 万起</td><td>要求博士、临床方向，没写经验年限</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="华大|临床科研主管/经理（2027 届）">华大 临床科研主管/经理（27 届）</button></td><td class="mono">估约 18–32K</td><td>R/Python、科研设计、写论文，最贴她的能力</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="迈瑞|PHD08">迈瑞 PHD08 临床工程师</button></td><td class="mono">估约 20–35K</td><td>秋招批次已过，但官网岗位还挂着</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="中山康方|上市前医学经理">康方 上市前医学经理（中山）</button></td><td class="mono">15–20K</td><td>写明可以接受应届生</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="华润三九|医学联络经理">华润三九 医学联络经理</button></td><td class="mono">15–25K</td><td>招博士，有经验只是加分项</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note2">规律：普通 MSL、医学事务岗给应届博士的薪资在 15–25K，博士专招岗能到 2–3 万，所以要优先投“博士专招 / 博士校招”通道。</p>
+    </div>
+    <div class="route">
+      <h3><span class="rk">②</span>跨专业的医学数据 / 产品岗</h3>
+      <ul>
+        <li><b><button class="jlink" type="button" data-find="Anker|医学经理">Anker 医学经理</button>（30–50K）</b>：要的是“临床 + 统计 + Python/R”，正好是她的组合，JD 也不卡经验。这是整个表里薪资最高、技能匹配度也最高的一个，强烈建议投。</li>
+        <li><button class="jlink" type="button" data-find="华为|人因">华为人因研究</button>、<button class="jlink" type="button" data-find="OPPO|高级生物医学工程师">OPPO 运动生物医学工程师</button>：可以试投，但都偏工程方向。</li>
+      </ul>
+    </div>
+    <div class="route">
+      <h3><span class="rk">③</span>体制内高校<em>编制和长期稳定性最好，但卡在论文上</em></h3>
+      <ul>
+        <li><b>11-30 有一批集中截止</b>：<button class="jlink" type="button" data-find="嘉应学院 医学院|专任教师">嘉应学院医学院</button>、<button class="jlink" type="button" data-find="岭南师范学院|A67">岭南师范学院体育科学学院</button>、<button class="jlink" type="button" data-find="南方医科大学康复医学院|教学科研人员">南方医科大学康复医学院</button>。其中南医康复医学院和运动医学最接近，而且对业绩的要求写得比较宽松，最值得投。</li>
+        <li>嘉应和岭南都要求论文“已发表”。她的论文还在修回，能不能报名取决于学校认不认录用通知、认不认共一作者，所以<b>这周必须打电话问</b>。</li>
+        <li><button class="jlink" type="button" data-find="嘉应学院 医学院|非事业编制博士">嘉应的非编博士通道</button>不看论文，可以作为保底。</li>
+        <li><b>真正的转折点是 Bone Research 接收</b>：论文一接收，深圳湾实验室、广州健康院、汕头大学医学院、遵义医科大学珠海校区、深圳大学这一批岗位都能投，2027 年 3–6 月还会有新一轮高校招聘。</li>
+      </ul>
+    </div>
+    <div class="route">
+      <h3><span class="rk">④</span>医院的专职科研岗<em>不看病，但工作在医院里</em></h3>
+      <p><button class="jlink" type="button" data-find="广东省人民医院|专职科研人员">广东省人民医院专职科研人员</button>（50 人，2 万+）名额多、平台好，可以投。要先问清楚是否要求规培、是不是事业编。</p>
     </div>
   </div>
+
+  <div>
+    <div class="sec-h"><h2>需要注意的问题</h2></div>
+    <div class="lessons">
+      <div><h3>和研究方向直接对口的企业岗很少</h3><p>运动医学、骨科方向只有<button class="jlink" type="button" data-find="珠海某医疗器械|骨关节炎科学家">珠海的骨关节炎科学家</button>、OPPO 运动生物力学、南医康复医学院这几个。大部分企业岗要转向 IVD、肿瘤药、心血管这些方向，要接受“换赛道”。</p></div>
+      <div><h3>很多校招批次已经关了</h3><p>迈瑞 10-21、平安科技 10-24、华为大约 10-14。剩下的多是“招满即止”，越晚投名额越少。</p></div>
+      <div><h3>英语和 GCP 是常见短板</h3><p>帝迈、康方、华润三九的 MSL 类岗位都看重英语，她只有四六级。GCP 证书线上就能考，是最快能补上的一块。</p></div>
+      <div><h3>保住应届身份</h3><p>她 2026 年 8 月毕业，华为、腾讯、OPPO 博士、华大、迈瑞、平安科技的 2027 届校招都认；金域、万孚的 27 届校招不认。拿到满意的 offer 之前，不要先签全职合同、不要先交社保。华大明确要求“毕业后没有全职工作经历”。</p></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="sec-h"><h2>建议的节奏</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th style="width:9em">时间</th><th>做什么</th></tr></thead>
+      <tbody>
+        <tr><td><b>这周（11-30 前）</b></td><td>给嘉应、岭南打电话；向南医康复医学院投材料；投信立泰（走中南就业网）、帝迈博士专场、Anker、华大临床科研、康方上市前医学经理、东阳光；找迈瑞 HR 问 PHD08 还收不收</td></tr>
+        <tr><td><b>12 月</b></td><td>投康方 MSL / 肿瘤医学经理（12-31）、广东开放大学（12-31）、阜外深圳科研岗（12-21）；盯深圳市事业单位集中招聘（去年是 11-25 发布）；考 GCP 证书</td></tr>
+        <tr><td><b>2027 年 1–2 月</b></td><td>广东省事业单位集中招聘；Bone Research 一接收，马上投深圳湾实验室、广州健康院、汕头大学医学院等科研岗</td></tr>
+        <tr><td><b>2027 年 3–6 月</b></td><td>广东各高校新一轮招聘（韶关学院、广东工程职院等）；企业春招</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout"><b>总的判断：</b>企业医学岗和体制内高校两条线同时推进。企业线现在就能拿到 offer，用来保底；高校线看论文进展，是更想要的长期方向。到 11 月底，企业这边先投出 10–15 份，体制内把 11-30 截止的三家处理完，这是目前性价比最高的做法。表里标“（参考）”的工资是按公司平均水平或网上爆料估的，以对方实际开出的为准。</div>
 </section>
 
 <div class="foot"><span>数据核对于 2026-11-22</span><span>“滚动 / 招满为止”的岗位，报名前先打电话问还空不空</span></div>
@@ -633,10 +692,13 @@ function show(name){
 }
 tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
 document.querySelector('nav.tabs').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;const i=tabs.findIndex(b=>b.getAttribute('aria-selected')==='true');const n=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];n.focus();show(n.dataset.tab)});
-$('#dlStrip').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;const i=+b.dataset.go;
+function jumpTo(i){
   st.g.clear();st.t=new Set(['1','2','3','w','0']);st.q='';st.city='';st.star=st.hideApplied=st.dated=false;$('#q').value='';$('#city').value='';
   document.querySelectorAll('.filters .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.t?'true':'false'));
-  show('jobs');render();const el=document.getElementById('job-'+i);if(el){el.scrollIntoView({block:'center'});el.classList.add('flash')}});
+  show('jobs');render();const el=document.getElementById('job-'+i);if(el){el.scrollIntoView({block:'center'});el.classList.add('flash')}}
+$('#dlStrip').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)jumpTo(+b.dataset.go)});
+$('#p-advice').addEventListener('click',e=>{const b=e.target.closest('[data-find]');if(!b)return;const [co,job]=b.dataset.find.split('|');const j=J.find(x=>x.co.includes(co)&&x.job.includes(job));if(j)jumpTo(j.i)});
+(function(){const L=J.filter(j=>j.t!==0);$('#aTotal').textContent=L.length;$('#aT1').textContent=L.filter(j=>j.t===1).length;$('#aT2').textContent=L.filter(j=>j.t===2).length;$('#aSZ').textContent=L.filter(j=>(j.cityMain||[]).includes('深圳')).length;})();
 
 $('#tabN').textContent=J.filter(j=>j.t!==0).length;
 render();
