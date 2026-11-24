@@ -225,6 +225,50 @@ ol.steps li::marker{color:var(--accent);font-weight:600}
 .foot{margin-top:40px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){.job.flash{animation:none}}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--ground);font-size:14px;padding:9px 16px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2);max-width:calc(100% - 32px)}
+
+/* interview prep */
+.iv-hero{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+@media (max-width:640px){.iv-hero{grid-template-columns:1fr}}
+.iv-hero h2{font-size:21px;margin:2px 0 6px}
+.iv-hero .meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--muted)}
+.iv-hero .meta b{color:var(--ink);font-weight:500}
+.iv-cd{text-align:center;background:var(--accent-soft);color:var(--accent);border-radius:8px;padding:10px 16px;min-width:9em}
+.iv-cd .mono{display:block;font-size:28px;font-weight:600;line-height:1.1}
+.iv-cd small{font-size:12px}
+.subnav{display:flex;flex-wrap:wrap;gap:6px}
+.subnav a{text-decoration:none}
+.fill{background:var(--warn-soft);color:var(--warn);border-radius:3px;padding:0 4px;font-style:normal;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.script{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;font-size:14.5px;line-height:1.85;display:flex;flex-direction:column;gap:8px}
+.script p{margin:0}
+.script .tag{font-size:12px;color:var(--faint);letter-spacing:.04em}
+.script[lang="en"]{font-family:var(--sans);line-height:1.7}
+.checks{display:flex;flex-direction:column;gap:2px;font-size:14px}
+.checks label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:6px 8px;border-radius:6px;cursor:pointer}
+.checks label:hover{background:var(--sunk)}
+.checks input{margin-top:5px;accent-color:var(--accent);width:16px;height:16px}
+.checks input:checked+span{color:var(--faint);text-decoration:line-through}
+.checks .when{font:600 12px var(--mono);color:var(--accent);padding:10px 8px 2px;letter-spacing:.04em}
+.qa-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.qa-group{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.qa-group:first-of-type{margin-top:0}
+.qa-group>h3{font-size:16px;margin-bottom:4px}
+details.qa{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+details.qa[open]{border-color:var(--accent)}
+details.qa summary{cursor:pointer;padding:10px 14px;font-weight:500;font-size:14.5px;list-style:none;display:flex;gap:10px;align-items:baseline}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:"+";flex:none;font:600 15px var(--mono);color:var(--accent);width:1em}
+details.qa[open] summary::before{content:"−"}
+details.qa summary .hot{flex:none;font-size:11px;font-weight:500;padding:0 6px;border-radius:3px;background:var(--urgent-soft);color:var(--urgent)}
+details.qa .a{padding:0 16px 14px 38px;font-size:14px;display:flex;flex-direction:column;gap:8px}
+details.qa .a p{margin:0}
+details.qa .a ul{margin:0;padding-left:1.2em}
+details.qa .why{color:var(--muted);font-size:13px}
+details.qa .say{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:0 6px 6px 0;line-height:1.8}
+details.qa .dont{color:var(--urgent);font-size:13px}
+details.qa.flash{animation:qaflash 1.8s ease}
+@keyframes qaflash{0%,45%{background:var(--accent-soft)}100%{background:var(--surface)}}
+@media (prefers-reduced-motion:reduce){details.qa.flash{animation:none}}
+.formula{font:13px var(--mono);background:var(--sunk);border-radius:4px;padding:1px 6px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -245,6 +289,7 @@ ol.steps li::marker{color:var(--accent);font-weight:600}
   <button role="tab" id="tab-jobs" data-tab="jobs">岗位库<span class="n" id="tabN"></span></button>
   <button role="tab" id="tab-advice" data-tab="advice">建议和分析</button>
   <button role="tab" id="tab-switch" data-tab="switch">体制内外转换</button>
+  <button role="tab" id="tab-mindray" data-tab="mindray">迈瑞面试 <span class="n">11-27</span></button>
 </nav>
 
 <!-- 总览 -->
@@ -344,7 +389,7 @@ ol.steps li::marker{color:var(--accent);font-weight:600}
           <tr><td><button class="jlink" type="button" data-find="帝迈生物|高级临床开发工程师">帝迈 高级临床开发工程师（博士专场）</button></td><td class="mono">28–35K·14 薪</td><td>条件完全对得上，<b>12-31 截止</b></td></tr>
           <tr><td><button class="jlink" type="button" data-find="东阳光|医学经理">东阳光 医学经理</button></td><td class="mono">博士 33 万起</td><td>要求博士、临床方向，没写经验年限</td></tr>
           <tr><td><button class="jlink" type="button" data-find="华大|临床科研主管/经理（2027 届）">华大 临床科研主管/经理（27 届）</button></td><td class="mono">估约 18–32K</td><td>R/Python、科研设计、写论文，最贴她的能力</td></tr>
-          <tr><td><button class="jlink" type="button" data-find="迈瑞|PHD08">迈瑞 PHD08 临床工程师</button></td><td class="mono">估约 20–35K</td><td>秋招批次已过，但官网岗位还挂着</td></tr>
+          <tr><td><button class="jlink" type="button" data-find="迈瑞|PHD08">迈瑞 PHD08 临床工程师</button></td><td class="mono">估约 20–35K</td><td><b>已拿到视频面试（11-27 周五 15:30）</b>，准备稿见“迈瑞面试”标签</td></tr>
           <tr><td><button class="jlink" type="button" data-find="中山康方|上市前医学经理">康方 上市前医学经理（中山）</button></td><td class="mono">15–20K</td><td>写明可以接受应届生</td></tr>
           <tr><td><button class="jlink" type="button" data-find="华润三九|医学联络经理">华润三九 医学联络经理</button></td><td class="mono">15–25K</td><td>招博士，有经验只是加分项</td></tr>
         </tbody>
@@ -471,6 +516,461 @@ ol.steps li::marker{color:var(--accent);font-weight:600}
     <a href="https://www.gd.gov.cn/zwfw/bmts/content/post_4849269.html" target="_blank" rel="noopener">广东省事业单位 2026 年集中招聘高校毕业生公告</a> ·
     <a href="https://m.thepaper.cn/wifiKey_detail.jsp?contid=14901535&amp;from=wifiKey" target="_blank" rel="noopener">高校教师未满服务期离职的判决（澎湃）</a> ·
     <a href="http://rsj.smx.gov.cn/32029/616197600/1047703.html" target="_blank" rel="noopener">机关事业与企业养老保险转移接续</a>
+  </div>
+</section>
+
+<!-- 迈瑞面试准备 -->
+<section class="panel" id="p-mindray" role="tabpanel" aria-labelledby="tab-mindray" hidden>
+  <div class="iv-hero">
+    <div>
+      <div class="eyebrow">面试邀约 · 视频面试（腾讯会议）</div>
+      <h2>迈瑞医疗 PHD08 临床工程师（临床医学与检验医学方向）（博士）</h2>
+      <div class="meta">
+        <span>预约时间 <b class="mono">11-27 周五 15:30</b></span>
+        <span>职位编号 <b class="mono">J18906</b></span>
+        <span>工作地点 <b>深圳 / 北京</b>（招聘页写了这两处，面试时要问清楚）</span>
+      </div>
+      <p class="lead" style="margin-top:8px">这是预约的意向时间，<b>最终时间以企业邮件为准</b>。面试链接在开始前 5 分钟、面试官叫号后才会通过短信和邮件发来。</p>
+    </div>
+    <div class="iv-cd" id="ivCd"><span class="mono" id="ivDays">–</span><small id="ivLabel">天后面试</small></div>
+  </div>
+
+  <nav class="subnav" aria-label="本页目录">
+    <a class="chip" href="#iv-plan">倒计时清单</a>
+    <a class="chip" href="#iv-etiquette">视频面试规矩</a>
+    <a class="chip" href="#iv-job">读懂这个岗位</a>
+    <a class="chip" href="#iv-company">迈瑞速览</a>
+    <a class="chip" href="#iv-ivd">IVD 速成</a>
+    <a class="chip" href="#iv-value">她能带来什么</a>
+    <a class="chip" href="#iv-intro">自我介绍</a>
+    <a class="chip" href="#iv-qa">问答库</a>
+    <a class="chip" href="#iv-ask">反问面试官</a>
+  </nav>
+
+  <div class="callout"><b>先记住三件事：</b>① 这个岗位要的是“懂临床、会做临床研究、能和医院打交道的人”，她的入组随访、论文、汇报经历正好对口，<b>不要因为没学过检验就心虚</b>；② 她最大的短板是 IVD 和检验知识，“IVD 速成”一节在面试前至少过两遍；③ 每个回答都按“结论 → 一件具体的事 → 结果 → 和这个岗位的关系”来说，控制在 1–2 分钟。</div>
+
+  <!-- 倒计时清单 -->
+  <div id="iv-plan">
+    <div class="sec-h"><h2>倒计时清单</h2><p>勾选会记在这台设备的浏览器里</p></div>
+    <div class="checks" id="ivChecks">
+      <div class="when">现在 – 11-25（周三）</div>
+      <label><input type="checkbox" data-ck="c1"><span>回邮件 / 短信确认收到；把发件邮箱加进通讯录，<b>检查垃圾邮件箱</b>，之后几天每天看两次</span></label>
+      <label><input type="checkbox" data-ck="c2"><span>电脑上装好<b>最新版腾讯会议 App</b> 和 <b>Chrome</b>；腾讯会议里把显示名称改成“姓名-PHD08”</span></label>
+      <label><input type="checkbox" data-ck="c3"><span>把本页“读懂这个岗位”“迈瑞速览”读一遍，用自己的话复述迈瑞是做什么的</span></label>
+      <label><input type="checkbox" data-ck="c4"><span>按“自我介绍”的模板写出自己的版本，把<span class="fill">黄色括号</span>里的内容换成真实情况，计时念到 1 分钟和 3 分钟</span></label>
+      <div class="when">11-26（周四）</div>
+      <label><input type="checkbox" data-ck="c5"><span>“IVD 速成”过两遍，重点背：血球 / 生化 / 免疫 / 凝血各举 3 个项目和临床意义；灵敏度、特异度、Kappa、Bland-Altman 各是什么</span></label>
+      <label><input type="checkbox" data-ck="c6"><span>问答库每题至少<b>出声</b>答一遍（点“随机抽一题”，像真面试一样不看答案先说）</span></label>
+      <label><input type="checkbox" data-ck="c7"><span>找一个人用腾讯会议模拟一次 30 分钟面试：看摄像头角度、光线、声音、网络</span></label>
+      <label><input type="checkbox" data-ck="c8"><span>想好三条底线：能不能去<b>北京</b>、能不能接受<b>出差</b>、期望薪资报多少（见问答库“条件类”）</span></label>
+      <label><input type="checkbox" data-ck="c9"><span>准备好桌面：简历纸质版、两篇论文的摘要、一张写着关键词的小卡片（贴在屏幕边，别照着念）、纸笔、一杯水</span></label>
+      <div class="when">11-27（周五）面试当天</div>
+      <label><input type="checkbox" data-ck="c10"><span><b>上午就去签到</b>（只能当天签，签到后才进入排队叫号）</span></label>
+      <label><input type="checkbox" data-ck="c11"><span>14:30 前：电脑接电源、关掉微信 / QQ 等弹窗和自动更新，手机静音但放在手边（链接发到短信）</span></label>
+      <label><input type="checkbox" data-ck="c12"><span>15:00 前：换好衣服，在面试的位置坐好，打开腾讯会议测一次摄像头和麦克风</span></label>
+      <label><input type="checkbox" data-ck="c13"><span>15:20：最后看一眼小卡片，深呼吸。叫号可能提前或推迟，耐心等，<b>不要离开座位</b></span></label>
+      <div class="when">面试后</div>
+      <label><input type="checkbox" data-ck="c14"><span>当天把被问到的问题和自己的回答记下来（下一轮、其他公司都用得上）</span></label>
+      <label><input type="checkbox" data-ck="c15"><span>一周左右没消息，可以礼貌地给 HR 发邮件问进度，只发一次</span></label>
+    </div>
+  </div>
+
+  <!-- 视频面试规矩 -->
+  <div id="iv-etiquette">
+    <div class="sec-h"><h2>视频面试的规矩</h2><p>学校里没人教，但面试官都会注意</p></div>
+    <div class="lessons">
+      <div><h3>设备和环境</h3><ul>
+        <li>用<b>电脑</b>（邀约里要求 PC + Chrome），不要用手机。笔记本垫高，<b>摄像头和眼睛齐平</b>，画面里是胸部以上。</li>
+        <li>光从正面来（对着窗户或台灯），不要背对窗户，否则脸是黑的。</li>
+        <li>背景是白墙或整洁的书架，不要有床、晾的衣服；不要用虚拟背景（边缘会抖，显得不正式）。</li>
+        <li>有线耳机比电脑外放好，没有回声。网络不稳就用手机开热点做备用。</li>
+      </ul></div>
+      <div><h3>穿着和仪态</h3><ul>
+        <li>穿<b>素色衬衫或简单的针织衫</b>即可，不必穿全套西装；头发整齐、淡妆或素颜干净即可。下半身也穿正常衣服（万一要起身）。</li>
+        <li>说话时看<b>摄像头</b>，不是看屏幕里的面试官——这样对方看到的是你在看他。</li>
+        <li>坐直，手放桌面，少摸头发和脸。开场微笑打招呼：“面试官您好，我是〔姓名〕，应聘 PHD08 临床工程师。”</li>
+      </ul></div>
+      <div><h3>说话方式</h3><ul>
+        <li><b>先说结论，再展开。</b>例如“我做过三类临床研究工作：入组、评估、随访。具体来说……”</li>
+        <li>语速比平时慢一点，每题 1–2 分钟。说完一个要点停一下，让面试官有机会追问。</li>
+        <li>没听清就请对方重复：“不好意思，刚才网络有点卡，能麻烦您再说一遍吗？”</li>
+        <li>不会的题<b>不要编</b>：“这个我目前了解得不深，我的理解是……，入职后我会重点补这一块。”诚实 + 思路，比硬编好得多。</li>
+        <li>可以先想几秒：“我想一下。”沉默 3–5 秒完全正常。</li>
+      </ul></div>
+      <div><h3>突发情况</h3><ul>
+        <li>掉线：马上用原链接重新进入；进不去就回复短信 / 邮件说明，<b>不要慌，这很常见</b>。</li>
+        <li>面试官迟到或叫号推迟：在原位等，不要催。</li>
+        <li>旁边有人或有噪音：提前跟家人 / 室友说好 15:00–17:00 别打扰。</li>
+        <li>结束时：“谢谢您的时间，期待有机会加入迈瑞。”等面试官先退出会议再关。</li>
+      </ul></div>
+    </div>
+    <p class="note2" style="margin-top:12px">迈瑞校招面试常见是 2–3 轮：专业面（部门负责人或资深临床工程师，最长）、综合面 / HR 面，有时还有终面。这次大概率是专业面，<b>重点会落在“介绍课题”“临床研究经历”“对检验指标的理解”“怎么设计一个 IVD 临床研究”</b>，以及能不能去北京、期望薪资、有没有其他 offer 这类问题（来自同岗位往届面经）。</p>
+  </div>
+
+  <!-- 读懂这个岗位 -->
+  <div id="iv-job">
+    <div class="sec-h"><h2>读懂这个岗位</h2><p>官网 JD 原文（2026-08-21 更新），右栏是她可以拿来对应的经历</p></div>
+    <p class="lead" style="margin:0 0 12px">注意：迈瑞的“临床工程师”<b>不是</b>医院里修设备的工程师，而是在研发体系里代表“临床”的人——把医生和检验科的需求翻译给研发，再组织医院做临床试验，证明产品在临床上好用、准确。</p>
+    <div class="tbl"><table>
+      <thead><tr><th style="width:34%">JD 写的</th><th style="width:33%">实际在做什么</th><th>她可以说的对应经历</th></tr></thead>
+      <tbody>
+        <tr><td><b>临床需求调研和澄清</b>：血球 / 生化 / 免疫等仪器和试剂的疾病诊疗场景、实验室场景和需求澄清，完成产品和功能的临床确认</td><td>去医院访谈临床医生、检验科主任：这个指标在什么病、什么环节用？现在有什么痛点？新功能临床上真用得上吗？</td><td>八年制 + 执业医师证，在运动医学科、影像科、核医学科轮转过，懂医生怎么想、医院怎么运转；做课题本身就是“从临床问题出发”</td></tr>
+        <tr><td><b>产品开发支持</b>：产品开发中的疾病诊疗分析与研究，参与新产品研发</td><td>给研发提供疾病和指标的医学依据：查文献、看指南、写医学背景材料，参加项目评审</td><td>两篇英文论文的文献调研、写作；单细胞 / 转录组数据分析（R、Python）；帮导师做汇报 PPT 和讲稿 = 把复杂内容整理成决策材料</td></tr>
+        <tr><td><b>临床性能评价</b>：作为接口人和国内外医院开展临床合作（注册临床、临床验证），设计和实施方案，完成临床评估报告，推动问题改进</td><td>写临床试验方案、找医院、过伦理、培训研究者、盯样本入组和数据质量、做统计、写报告交注册</td><td><b>最对口的一条</b>：亲自做过患者<b>入组、评估、随访</b>；懂纳排标准、知情同意、数据记录；会统计；英文论文写作 = 写报告的能力</td></tr>
+        <tr><td>任职要求：博士，临床 / 检验 / 基础医学；英语读写好；熟悉常见病诊疗原则和检验项目的临床应用；临床基础扎实，了解医学统计；抗压、沟通、协调、团队合作</td><td>英语：读外文指南、写英文报告、和海外医院沟通（迈瑞一半以上收入来自海外）</td><td>两篇英文论文（共一）+ 学术会议汇报 = 英语读写和沟通；<span class="fill">检验项目的临床应用是短板，要靠“IVD 速成”补</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 迈瑞速览 -->
+  <div id="iv-company">
+    <div class="sec-h"><h2>迈瑞速览</h2><p>数据来自 2025 年报、2026 年三季报和公司公开资料</p></div>
+    <div class="kpis">
+      <div><span class="mono">1991</span><small>成立于深圳，总部南山区；2018 年深交所创业板上市（300760）</small></div>
+      <div><span class="mono">190+</span><small>产品卖到的国家和地区</small></div>
+      <div><span class="mono">2.1 万+</span><small>员工，其中约四分之一做研发</small></div>
+      <div><span class="mono">53%</span><small>收入来自海外（2026 前三季度）</small></div>
+    </div>
+    <p class="lead">使命：<b>“普及高端科技，让更多人分享优质生命关怀”</b>。中国最大、全球领先的医疗器械公司之一，在国内常被叫作“国产器械龙头”。</p>
+
+    <div class="tbl" style="margin-top:14px"><table>
+      <thead><tr><th>业务线</th><th>做什么</th><th style="width:11em">2026 前三季度</th></tr></thead>
+      <tbody>
+        <tr><td><b>体外诊断（IVD）</b><br><span class="note2">← 这个岗位所在的线</span></td><td>血液细胞分析（血球）、生化、化学发光免疫、凝血、尿液等仪器和试剂，以及把它们连起来的实验室<b>自动化流水线</b>（MT 8000）</td><td class="mono">105.9 亿，+7.8%<br><b>第一大业务，占 39%</b></td></tr>
+        <tr><td>生命信息与支持</td><td>监护仪、呼吸机、麻醉机、除颤仪、手术室和 ICU 整体方案</td><td class="mono">73.3 亿，−1.3%</td></tr>
+        <tr><td>医学影像</td><td>超声（全球领先的品类之一）、DR</td><td class="mono">43.0 亿，−6.2%</td></tr>
+        <tr><td>新兴业务</td><td>微创外科、微创介入（控股惠泰医疗）、骨科、动物医疗等</td><td class="mono">47.4 亿，+20.5%</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="lessons" style="margin-top:16px">
+      <div><h3>最近两年发生了什么</h3><ul>
+        <li><b>2025 年是低谷</b>：全年营收 332.8 亿，下降 9.4%；国内收入跌了约 23%，原因是国内设备招标放缓、DRG/DIP 医保支付改革、检验试剂集采降价。</li>
+        <li><b>2026 年在回暖</b>：前三季度营收 271.0 亿，增长 4.9%；国内降幅收窄到 −1.3%，公司预计全年国内转为正增长。</li>
+        <li><b>出海是主线</b>：海外收入 143.6 亿，增长 11%；欧洲增长近 20%，国际 IVD 增长 20%，国际免疫增长超过 30%。</li>
+      </ul></div>
+      <div><h3>IVD 的布局和新动作</h3><ul>
+        <li>收购芬兰 <b>HyTest</b>（2021，抗原抗体等上游原料）、德国 <b>DiaSys</b>（2024，生化试剂，海外本地化生产）。</li>
+        <li><b>化学发光免疫</b>是增长最快的：免疫试剂国内已上市 103 个、欧盟 CE 105 个；高速机 CL-8000i 装机量快速增长。</li>
+        <li><b>流水线</b>：MT 8000 全实验室智能化流水线在国内外大医院铺开；2026 年三季度又推出 CAL 7000E 血液分析流水线、MT 7000 样品处理系统、BC-7800Plus 血球仪。</li>
+        <li><b>AI</b>：自研“启元”医疗大模型，2026 年推出“启元检验大模型报告审核智能体”，帮检验科审核报告。</li>
+        <li>研发投入：前三季度 27.4 亿，占营收约 10%。</li>
+      </ul></div>
+      <div><h3>行业背景（被问“怎么看行业”时用）</h3><ul>
+        <li><b>集采</b>：生化、化学发光试剂的省际联盟集采，价格压下来，拼的是质量、成本和菜单齐全。</li>
+        <li><b>国产替代</b>：国内高端检验（尤其化学发光）原来被罗氏、雅培、西门子、贝克曼占据，迈瑞在逐步替代。</li>
+        <li><b>出海</b>：迈瑞已经从“国产替代”走到“全球竞争”，需要懂海外法规（欧盟 IVDR）、能和海外医院合作的人。</li>
+        <li><b>临床价值</b>：集采之后，产品比的不只是参数，而是“临床证据”——这正是临床工程师做的事。</li>
+      </ul></div>
+    </div>
+    <div class="callout" style="margin-top:14px"><b>面试时可以自然带出的一句话：</b>“我了解到迈瑞的 IVD 已经是第一大业务，今年国际免疫增长超过 30%，又收购了 DiaSys 做海外本地化。产品要进入更多国家和更高端的医院，需要大量高质量的临床证据，我觉得临床工程师在这个阶段特别关键，这也是我想来的原因。”</div>
+  </div>
+
+  <!-- IVD 速成 -->
+  <div id="iv-ivd">
+    <div class="sec-h"><h2>IVD 速成</h2><p>她的最大短板。目标不是变成检验专家，而是被问到时能说出“是什么、看什么病、怎么解读”</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th style="width:7em">类别</th><th>常见项目</th><th>临床意义（一句话）</th></tr></thead>
+      <tbody>
+        <tr><td><b>血球</b><br><span class="note2">血液细胞分析</span></td><td>WBC 及五分类、RBC、Hb、PLT；迈瑞血球仪可同时测 <b>CRP、SAA</b></td><td>感染（细菌常见中性粒细胞升高，病毒常见淋巴细胞升高）、贫血分型、出血风险；CRP 判断细菌感染和炎症程度，SAA 对病毒感染也会升高、升得更早</td></tr>
+        <tr><td><b>生化</b></td><td>肝功（ALT、AST、胆红素、白蛋白）、肾功（肌酐、尿素、尿酸）、血脂、血糖、电解质、心肌酶</td><td>肝肾损伤、代谢病、用药监测；最常规、量最大的检验</td></tr>
+        <tr><td><b>免疫</b><br><span class="note2">化学发光</span></td><td>肿瘤标志物（AFP、CEA、CA125、PSA）、甲功（TSH、FT3、FT4）、乙肝五项 / HCV / HIV / 梅毒、心肌标志物（<b>hs-cTnI、NT-proBNP</b>）、感染（<b>PCT、IL-6</b>）、性激素、<b>骨代谢</b>（25-OH 维生素 D、PTH、β-CTx、P1NP）</td><td>hs-cTnI 是诊断心梗的核心指标；NT-proBNP 看心衰；PCT 对<b>细菌性</b>感染和脓毒症更特异；肿瘤标志物只能辅助，<b>不能单独用来诊断或筛查</b></td></tr>
+        <tr><td><b>凝血</b></td><td>PT/INR、APTT、TT、FIB、<b>D-二聚体</b>、FDP</td><td>出血 / 血栓风险、抗凝药监测（华法林看 INR）；D-二聚体<b>阴性可以基本排除</b>深静脉血栓和肺栓塞，阳性不能确诊</td></tr>
+        <tr><td><b>尿液</b></td><td>尿干化学、尿有形成分</td><td>泌尿系感染、肾病筛查</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="lessons" style="margin-top:16px">
+      <div><h3>和她的运动医学背景能接上的点</h3><ul>
+        <li><b>D-二聚体</b>：膝关节镜、前交叉韧带重建术后的深静脉血栓风险评估。</li>
+        <li><b>CRP、PCT、IL-6、血沉</b>：骨科术后感染、人工关节周围感染的诊断和随访。</li>
+        <li><b>骨代谢标志物</b>（β-CTx、P1NP、25-OH 维生素 D、PTH）：骨质疏松、骨愈合；她的肩袖论文研究的就是骨细胞和腱骨愈合。</li>
+        <li>回答“如果让你设计一个 IVD 课题”时，可以从这些熟悉的场景切入，再说明自己会快速学 IVD 的方法学。</li>
+      </ul></div>
+      <div><h3>临床性能评价：必须会的概念</h3><ul>
+        <li><b>灵敏度</b> = 真阳性 /（真阳性 + 假阴性），有病的人里测出阳性的比例；<b>特异度</b> = 真阴性 /（真阴性 + 假阳性）。</li>
+        <li><b>阳性 / 阴性预测值</b>受人群患病率影响；同一个试剂在体检人群和住院病人里 PPV 不一样。</li>
+        <li><b>定性试剂</b>和对比试剂比：阳性符合率、阴性符合率、总符合率、<b>Kappa</b>（一般 &gt;0.75 认为一致性好），都要给 95% 置信区间。</li>
+        <li><b>定量试剂</b>做方法学比对：Passing-Bablok 或 Deming 回归（看斜率、截距）、<b>Bland-Altman 图</b>（看偏倚和一致性界限），重点看<b>医学决定水平</b>附近的偏倚。<br><b>相关系数 r 高 ≠ 结果一致</b>——这是面试官爱追问的点。</li>
+        <li><b>ROC 曲线 / AUC</b>：用于确定 cut-off（临界值）和比较诊断效能。</li>
+      </ul></div>
+      <div><h3>法规和标准：知道名字就够</h3><ul>
+        <li>《体外诊断试剂注册与备案管理办法》（2021）；《体外诊断试剂临床试验技术指导原则》（2021）；《医疗器械临床试验质量管理规范》（器械 GCP，2022）。</li>
+        <li>IVD 按风险分一、二、三类；三类（如 HIV、肿瘤、血型）要求最严，临床试验机构数更多。</li>
+        <li>注册临床常用<b>剩余样本</b>（检验后剩下的血），伦理委员会可以批准免除知情同意；对比方法是<b>已上市同类产品</b>或<b>临床参考标准</b>（“金标准”）。</li>
+        <li>欧盟 <b>IVDR</b>（2017/746）：性能评价 = 科学有效性 + 分析性能 + 临床性能。</li>
+        <li>分析性能常参考 CLSI 文件：EP05 精密度、EP06 线性、EP09 方法比对、EP28 参考区间（每组至少 120 例）。</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- 她能带来什么 -->
+  <div id="iv-value">
+    <div class="sec-h"><h2>她能给迈瑞带来什么</h2><p>被问“你的优势是什么”“为什么要招你”时，从这四条里挑</p></div>
+    <div class="verdict">
+      <div><span class="pill ok">临床研究执行</span><h3>做过真实的患者入组、评估、随访</h3><p>知道纳排标准怎么落地、知情同意怎么谈、患者怎么随访不失访、数据怎么记才可靠。注册临床和临床验证要的就是这种执行力，很多只做基础实验的博士没有。</p></div>
+      <div><span class="pill ok">临床底子</span><h3>八年制临床医学 + 执业医师证</h3><p>系统学过内外妇儿和诊断学，在湘雅轮转过；和临床专家、检验科主任对话时说的是同一种语言，能听懂需求背后的诊疗逻辑。</p></div>
+      <div><span class="pill ok">科研和英文</span><h3>两篇英文论文 + 数据分析</h3><p>从提出问题、设计研究、统计分析到英文写作和投稿修回全流程走过；会 R 和 Python。写临床评估报告、读外文指南、对接海外医院都用得上。</p></div>
+      <div><span class="pill ok">表达和材料</span><h3>学术会议汇报 + 长期给导师做汇报 PPT 和讲稿</h3><p>能把复杂内容讲给不同的人听：对专家讲证据，对研发讲需求，对管理层讲结论。临床工程师是研发、注册、市场和医院之间的“接口人”，这是核心能力。</p></div>
+    </div>
+    <p class="note2" style="margin-top:10px">需要坦诚面对的短板：没有检验科工作经验、没做过 IVD 注册临床、论文还在修回。说法是“承认 + 已经在补 + 可迁移的能力”，见问答库“刁钻问题”。</p>
+  </div>
+
+  <!-- 自我介绍 -->
+  <div id="iv-intro">
+    <div class="sec-h"><h2>自我介绍</h2><p>开场几乎一定会被要求。<span class="fill">黄色括号</span>里的内容按真实情况替换，宁少勿夸</p></div>
+    <div class="script">
+      <span class="tag">1 分钟版（约 280 字，默认用这个）</span>
+      <p>面试官您好，我叫<span class="fill">〔姓名〕</span>，毕业于中南大学湘雅医学院临床医学八年制，今年 8 月获得临床医学博士学位，研究方向是运动医学，已取得执业医师资格。</p>
+      <p>我想应聘这个岗位，是因为它要的三种能力，正好是我博士期间一直在做的事。第一是临床研究：我参与了<span class="fill">〔前交叉韧带损伤等〕</span>患者的入组、评估和随访，<span class="fill">〔累计约 XX 例〕</span>，熟悉纳排标准、知情同意和随访管理。第二是科研和英文：我以共同第一作者完成了两篇英文论文，分别在 Bone Research 和 The American Journal of Pathology 修回中，会用 R 和 Python 做数据分析。第三是沟通表达：我在<span class="fill">〔某学术会议〕</span>做过汇报，也长期协助导师准备学术汇报的 PPT 和讲稿。</p>
+      <p>我对检验医学的实际工作接触还不多，最近在系统学习 IVD 临床评价的方法和法规。我希望把临床和科研的训练用在产品上，让更多医院用上更好的国产诊断产品。谢谢。</p>
+    </div>
+    <div class="script" style="margin-top:12px">
+      <span class="tag">3 分钟版：在 1 分钟版基础上，每一段各加一件具体的事</span>
+      <p><b>临床研究</b>：讲一次具体的入组或随访经历——比如怎么判断一个患者是否符合纳入标准、怎么跟患者解释研究、怎么减少失访<span class="fill">〔用自己的真实例子〕</span>。</p>
+      <p><b>科研</b>：用两三句通俗地讲 Bone Research 那篇：前交叉韧带断裂后，残端组织里有一个促进修复和重塑的细胞微环境，我们用单细胞测序发现它会随着受伤时间延长而减弱，<span class="fill">〔这对手术时机和残端保留有参考意义〕</span>。我负责<span class="fill">〔样本收集、数据分析、写作……按真实分工〕</span>。</p>
+      <p><b>表达</b>：讲一次汇报——听众是谁、怎么把内容讲清楚、得到了什么反馈<span class="fill">〔例如被提问后怎么回应〕</span>。</p>
+      <p>最后一句收回到岗位：“这些经历让我相信，我能在临床需求、临床验证和报告撰写这几块尽快上手。”</p>
+    </div>
+    <div class="script" lang="en" style="margin-top:12px">
+      <span class="tag">英文版（JD 要求英语读写，可能会让用英文说一段）</span>
+      <p>Good afternoon. My name is <span class="fill">[name]</span>. I received my MD degree in clinical medicine from Xiangya School of Medicine, Central South University, this August, majoring in sports medicine, and I hold a medical license.</p>
+      <p>During my doctoral training, I took part in clinical research, including patient enrollment, assessment and follow-up. I am a co-first author of two English papers, which are now under revision at Bone Research and The American Journal of Pathology. My main project used single-cell sequencing to study how the healing environment of the injured ACL changes over time. I also presented my work at academic conferences and often helped my supervisor prepare presentations.</p>
+      <p>I am applying for this position because it combines clinical knowledge, clinical research and communication, which are exactly what I have been trained in. I am eager to learn more about in-vitro diagnostics and contribute to Mindray's clinical evaluation work. Thank you.</p>
+    </div>
+  </div>
+
+  <!-- 问答库 -->
+  <div id="iv-qa">
+    <div class="sec-h"><h2>问答库</h2><p>标<span class="pill hard" style="font-size:11px;padding:0 6px">高频</span>的优先练。参考答法是骨架，换成她自己的话和真实例子</p></div>
+    <div class="qa-tools">
+      <button class="btn" type="button" id="qaRandom">随机抽一题</button>
+      <button class="btn" type="button" id="qaOpenAll">全部展开</button>
+      <button class="btn" type="button" id="qaCloseAll">全部收起</button>
+      <span class="note2">练习方法：抽到题先出声答，再展开对照</span>
+    </div>
+
+    <div class="qa-group">
+      <h3>一、动机类：为什么是迈瑞、为什么是这个岗位</h3>
+      <details class="qa"><summary><span class="hot">高频</span>为什么选择迈瑞？</summary><div class="a">
+        <p class="why">考察：你是真想来，还是海投。要说出具体的、只适用于迈瑞的理由。</p>
+        <p class="say">三个原因。第一，迈瑞是国内医疗器械的龙头，IVD 已经是第一大业务，产品线从血球、生化、免疫到流水线都很全，临床工程师能接触到的疾病和场景非常多。第二，迈瑞在出海，海外收入已经超过一半，今年国际免疫增长超过 30%，还收购了德国 DiaSys，我能参与面向全球的临床评价，这在国内很少有公司能提供。第三，迈瑞很重视临床证据和研发投入，研发投入占营收约 10%，这和我做临床研究的背景最契合。</p>
+        <p class="dont">避坑：不要只说“大平台、稳定、待遇好”；不要说“离家近”作为第一理由。</p>
+      </div></details>
+      <details class="qa"><summary><span class="hot">高频</span>你是临床医学博士，为什么不去医院当医生？</summary><div class="a">
+        <p class="why">考察：会不会干两年又回医院；动机是否积极。</p>
+        <p class="say">我在临床轮转和做课题的过程中发现，我最有成就感的不是看一个病人，而是把临床问题变成研究、再变成证据的过程。一个好的诊断产品，可以同时帮助成千上万的医生和患者。临床工程师正好站在临床和产品中间，能把我的临床训练用在更大的范围。这是我认真考虑之后的选择，不是退而求其次。</p>
+        <p class="dont">避坑：不要说“医院太累、不想规培、收入低”——即使是真的，也会被理解为逃避。</p>
+      </div></details>
+      <details class="qa"><summary>为什么不留在学术界或做博士后？</summary><div class="a">
+        <p class="say">博士期间我意识到，我更喜欢研究能比较快地落到实际应用上。基础研究从发现到应用往往要十几年，而在 IVD 企业，一个好的临床验证可以直接决定产品能不能上市、医生能不能用上。我希望在应用端发挥科研训练的价值。</p>
+      </div></details>
+      <details class="qa"><summary><span class="hot">高频</span>你对这个岗位的理解是什么？</summary><div class="a">
+        <p class="why">考察：知不知道自己要干什么。用 JD 的三块职责回答。</p>
+        <p class="say">我理解临床工程师是研发体系里代表“临床”的人，主要做三件事：第一，去医院调研临床和检验科的需求，告诉研发这个产品在临床上该怎么用、要解决什么问题；第二，在研发过程中提供疾病和检验项目的医学依据；第三，作为接口人和医院合作开展注册临床和临床验证，从方案设计、执行、质控到统计和写报告，证明产品的临床性能。三件事里，我做过最多的是第三类的执行部分。</p>
+      </div></details>
+      <details class="qa"><summary>你的研究方向是运动医学，和 IVD 不对口，怎么看？</summary><div class="a">
+        <p class="say">方向确实不同，但这个岗位需要的核心能力是可以迁移的：临床思维、临床研究的设计和执行、统计和写作。我的课题本身也离不开检验，比如<span class="fill">〔术前术后的炎症指标、骨代谢指标〕</span>。我也在主动补 IVD 知识：最近系统看了血球、生化、免疫、凝血主要项目的临床意义，还有 IVD 临床试验指导原则里方法学比对和一致性评价的要求。我学东西比较快，八年制就是在不断地换科室、快速上手。</p>
+      </div></details>
+      <details class="qa"><summary>你了解迈瑞哪些 IVD 产品？</summary><div class="a">
+        <p class="say">我了解到迈瑞 IVD 覆盖血液细胞分析、生化、化学发光免疫、凝血和尿液，血球仪可以同时测 CRP 和 SAA，免疫有高速的 CL-8000i，还有把这些串起来的 MT 8000 全实验室流水线。今年还推出了 CAL 7000E 血液分析流水线，以及用“启元”大模型做检验报告审核的智能体。如果有机会，我很想了解这个岗位目前主要负责哪条产品线。</p>
+        <p class="dont">避坑：只说自己确定的；说不出型号也没关系，说出产品类别就够。</p>
+      </div></details>
+    </div>
+
+    <div class="qa-group">
+      <h3>二、经历类：一定会被追问细节</h3>
+      <details class="qa"><summary><span class="hot">高频</span>介绍一下你的博士课题（给非本专业的人听）</summary><div class="a">
+        <p class="why">考察：能不能把复杂的东西讲清楚——这本身就是临床工程师的日常。控制在 1 分半钟，少用专业名词。</p>
+        <p class="say">前交叉韧带断了以后，临床上常做重建手术，残留的韧带残端要不要保留、什么时候手术更好，一直有争议。我的课题就是看残端组织里的细胞环境随着受伤时间怎么变化。我们收集了不同病程患者手术中的残端组织，用单细胞测序把里面的细胞一个一个分出来，发现有一个促进组织修复和重塑的多细胞“微环境”，它会随着病程延长而减弱。这提示<span class="fill">〔早期手术 / 保留残端可能更有利于移植物的愈合〕</span>。这项工作在 Bone Research 修回中，我是共同第一作者，主要负责<span class="fill">〔真实分工〕</span>。</p>
+        <p class="dont">追问准备：样本量多少？分组依据是什么？怎么验证的（组织学、动物模型）？统计方法？最大的困难是什么？</p>
+      </div></details>
+      <details class="qa"><summary><span class="hot">高频</span>你说做过患者入组、评估、随访，具体做了什么？</summary><div class="a">
+        <p class="why">考察：是不是真的做过；有没有质量意识。这是和岗位最相关的经历，<b>一定要准备一个具体的例子</b>。</p>
+        <p class="say">我参与的是<span class="fill">〔哪个研究〕</span>，负责从门诊 / 病房筛选符合条件的患者。入组时按纳入和排除标准逐条核对，比如<span class="fill">〔受伤时间、年龄、合并损伤〕</span>，然后向患者解释研究目的、采集的样本和风险，签知情同意。评估主要是<span class="fill">〔术前术后的功能评分如 Lysholm、IKDC，体格检查，影像〕</span>。随访按时间点<span class="fill">〔3 个月、6 个月、1 年〕</span>电话或门诊复查，我会提前提醒患者，失访的会多次联系并记录原因。数据我都是当天录入表格，并和原始记录核对。<span class="fill">〔累计入组 XX 例，随访率约 XX%〕</span>。</p>
+        <p>最后加一句和岗位的连接：“IVD 的注册临床虽然多用剩余样本，但纳排标准、数据真实性、和研究者沟通这些核心是一样的。”</p>
+        <p class="dont">避坑：数字一定要真实；记不清就说“大约”，别现场编。</p>
+      </div></details>
+      <details class="qa"><summary>临床研究里遇到过什么困难？怎么解决的？</summary><div class="a">
+        <p class="why">考察：解决问题的能力。用 STAR：情境、任务、行动、结果。</p>
+        <p>可以选的素材：患者不愿参加 / 随访失访；不同医生评估标准不统一；样本采集时间难协调；数据缺失。</p>
+        <p class="say">例：随访时有一部分患者是外地的，复查率低。我<span class="fill">〔做了什么：提前一周微信提醒、改成线上问卷 + 当地影像结果上传、跟主管医生协调门诊时间〕</span>，最后随访率从<span class="fill">〔X% 提高到 Y%〕</span>。这让我意识到，临床研究成败很多时候在执行细节，和研究者、患者的沟通要提前做。</p>
+      </div></details>
+      <details class="qa"><summary>两篇论文里你具体负责什么？共同第一作者怎么分工？</summary><div class="a">
+        <p class="say">按真实情况说清楚分工，例如：“Bone Research 那篇我排共一第一位，负责<span class="fill">〔样本收集、单细胞数据分析、组织学验证、初稿撰写和修回回复〕</span>；AJP 那篇我排共一第二位，主要负责<span class="fill">〔……〕</span>。”</p>
+        <p class="dont">避坑：不要把别人的工作说成自己的，面试官追问细节一下就能听出来。修回意见也可以讲——“审稿人要求补充了什么、我怎么回应的”是很好的素材。</p>
+      </div></details>
+      <details class="qa"><summary>讲一次你在学术会议上的汇报</summary><div class="a">
+        <p class="say">讲清楚：什么会议、听众是谁、讲多长时间、怎么准备（比如先写讲稿、反复练、根据听众调整专业深度）、被问到什么问题、怎么回答的、结果如何<span class="fill">〔获奖 / 被邀请交流〕</span>。最后连接到岗位：“以后和临床专家交流、在学术会议上介绍临床研究结果，都需要这种能力。”</p>
+      </div></details>
+      <details class="qa"><summary>你经常帮导师做汇报 PPT 和讲稿，这算什么能力？</summary><div class="a">
+        <p class="why">别小看这条，要包装成“信息整理和面向不同受众的表达”。</p>
+        <p class="say">导师的汇报对象有学术同行、医院管理层和评审专家。我需要在很短时间里把团队的大量数据和成果整理成一条清楚的逻辑线，并且根据听众调整重点。比如<span class="fill">〔某次基金 / 评审汇报，几天内完成，导师反馈〕</span>。这让我练出了快速抓重点、把复杂内容讲简单的能力，我觉得在企业里给研发、注册、市场和医院专家准备材料时会很有用。</p>
+      </div></details>
+      <details class="qa"><summary>毕业几个月了，这段时间在做什么？</summary><div class="a">
+        <p class="why">她 2026 年 8 月已毕业，面试官可能会问空档期。如实、积极地说。</p>
+        <p class="say">毕业后我主要在做两件事：一是完成两篇论文的修回，按审稿意见补充了<span class="fill">〔实验 / 分析〕</span>；二是认真想清楚职业方向，系统地了解了医疗器械和 IVD 行业，也在学习 IVD 临床试验的相关法规。我希望找到一个能长期发展的岗位，而不是随便先找一份工作。</p>
+      </div></details>
+    </div>
+
+    <div class="qa-group">
+      <h3>三、专业类：检验指标、临床试验设计、统计</h3>
+      <details class="qa"><summary><span class="hot">高频</span>说说 CRP 和 PCT 的区别 / 临床意义</summary><div class="a">
+        <p class="say">两者都是炎症标志物。CRP 是肝脏合成的急性时相蛋白，细菌感染、组织损伤、手术后都会升高，比较灵敏但特异性一般。PCT 在细菌感染、尤其是脓毒症时明显升高，病毒感染和一般炎症时升得不高，所以对<b>细菌性</b>感染更特异，常用来判断是否用抗生素、何时停药。另外 SAA 在病毒感染时也会升高、上升更早，和 CRP 联合可以帮助区分细菌和病毒感染——迈瑞的血球仪就能同时出 CRP 和 SAA。</p>
+        <p>延伸到她的背景：骨科术后 CRP 会生理性升高，一般 3 天左右达峰后下降，如果持续不降或再次升高要警惕感染。</p>
+      </div></details>
+      <details class="qa"><summary>D-二聚体的临床意义？</summary><div class="a">
+        <p class="say">D-二聚体是交联纤维蛋白降解的产物，反映体内有血栓形成和纤溶。它的价值主要在<b>阴性排除</b>：对低、中度可能性的患者，D-二聚体阴性基本可以排除深静脉血栓和肺栓塞。但手术、外伤、感染、妊娠、肿瘤、高龄都会让它升高，所以阳性不能确诊，要结合超声或 CTPA。年龄大于 50 岁的人可以用“年龄 × 10 μg/L”作为调整后的临界值。我在运动医学科看到，膝关节手术后评估血栓风险时就会用到它。</p>
+      </div></details>
+      <details class="qa"><summary>你熟悉哪些检验项目？举一个说说它的临床意义</summary><div class="a">
+        <p class="why">挑自己最熟的说，主动把话题引到熟悉的地方。</p>
+        <p>推荐准备：hs-cTnI（心梗诊断，看动态变化，0/1 小时或 0/2 小时快速流程）、NT-proBNP（心衰诊断和排除，受年龄和肾功能影响）、HbA1c（反映近 2–3 个月平均血糖）、TSH（甲功首选筛查指标）、骨代谢标志物（β-CTx 反映骨吸收，P1NP 反映骨形成）。</p>
+      </div></details>
+      <details class="qa"><summary><span class="hot">高频</span>如果让你为一款新试剂设计临床试验，你怎么做？</summary><div class="a">
+        <p class="why">往届面经原题。面试官看的是思路是否完整，不要求标准答案。按下面的框架说，举一个具体产品（比如一款新的化学发光 PCT 试剂）。</p>
+        <ol class="steps">
+          <li><b>明确目的和预期用途</b>：用于什么人群、什么临床场景（如脓毒症辅助诊断）；是定性还是定量。</li>
+          <li><b>选对比方法</b>：已上市的同类试剂（境内已注册的主流产品），或者临床参考标准（如临床诊断结果）。</li>
+          <li><b>设计</b>：多家临床试验机构（按管理类别，通常不少于 2–3 家），同一份样本两种方法同时检测，检测人员对另一方法结果设盲。</li>
+          <li><b>样本</b>：浓度要覆盖整个测量区间，尤其<b>医学决定水平</b>附近；包括目标疾病和容易混淆的疾病、可能的干扰样本（溶血、脂血、黄疸）；多用剩余样本，伦理批准后可免知情同意。</li>
+          <li><b>样本量</b>：按统计公式算（基于预期的符合率 / 灵敏度、可接受的置信区间下限），满足指导原则的最低要求。</li>
+          <li><b>统计分析</b>：定量看回归分析和 Bland-Altman、偏倚；定性看阳性 / 阴性符合率和 Kappa，都给 95% 置信区间；不一致的样本要复核并分析原因。</li>
+          <li><b>质量控制</b>：研究者培训、仪器校准和质控、数据核查、监查。</li>
+          <li><b>报告</b>：写临床试验报告，结论支持注册；发现的问题反馈给研发改进。</li>
+        </ol>
+        <p class="dont">说完可以加一句：“细节上我会严格按照《体外诊断试剂临床试验技术指导原则》，这部分我还需要在实践中学习。”</p>
+      </div></details>
+      <details class="qa"><summary>两种方法测同一批样本，相关系数 r = 0.98，能说明结果一致吗？</summary><div class="a">
+        <p class="say">不能。相关系数只说明两组结果的变化趋势一致，但可能存在系统偏差，比如一种方法总是比另一种高 20%，r 仍然可以很高。判断一致性要看回归的斜率和截距是否接近 1 和 0，用 Bland-Altman 图看平均偏倚和 95% 一致性界限，并重点看医学决定水平处的偏倚是否在可接受范围内。另外样本浓度范围越宽，r 越容易高，这也是要注意的。</p>
+      </div></details>
+      <details class="qa"><summary>灵敏度、特异度、阳性预测值是什么？有什么关系？</summary><div class="a">
+        <p class="say">灵敏度是真正有病的人里，检测阳性的比例，代表“不漏诊”；特异度是真正没病的人里，检测阴性的比例，代表“不误诊”。阳性预测值是检测阳性的人里真正有病的比例，它和人群患病率有关：同一个试剂，在患病率低的体检人群里，阳性预测值会明显下降。所以评价一个试剂时，要说清楚是在什么人群里评价的。灵敏度和特异度之间通常需要权衡，可以用 ROC 曲线选择临界值。</p>
+        <p>公式：<span class="formula">灵敏度 = TP/(TP+FN)</span> <span class="formula">特异度 = TN/(TN+FP)</span> <span class="formula">PPV = TP/(TP+FP)</span></p>
+      </div></details>
+      <details class="qa"><summary>你常用哪些统计方法？</summary><div class="a">
+        <p class="say">按真实情况说，例如：两组比较，正态用 t 检验，非正态用 Mann-Whitney U 检验；多组用方差分析或 Kruskal-Wallis；分类变量用卡方或 Fisher 精确检验；相关分析；生存分析<span class="fill">〔用过才说〕</span>；单细胞数据用 R 的 Seurat 做聚类和差异分析，多重比较做 FDR 校正。工具是 R、Python 和 GraphPad Prism。</p>
+        <p class="dont">准备一个追问：“为什么用这个检验而不用那个？”——答出前提条件（正态性、方差齐性、样本量）就行。</p>
+      </div></details>
+      <details class="qa"><summary>临床试验中，试验试剂和对比试剂结果不一致怎么办？</summary><div class="a">
+        <p class="say">首先不能随意剔除。要先核查是否有操作或样本问题（样本质量、保存、溶血等），按方案规定的方法复测，必要时用第三种方法或临床诊断结果来判断哪个结果正确。所有不一致样本都要如实记录、统计并在报告中分析原因。如果不一致集中在某个浓度段或某类样本，就要反馈给研发，可能是产品需要改进的地方——这也是临床工程师“推动临床性能问题改进”的价值。</p>
+      </div></details>
+      <details class="qa"><summary>参考区间和医学决定水平有什么区别？</summary><div class="a">
+        <p class="say">参考区间是健康人群 95% 的分布范围，用来判断结果是否“正常”；医学决定水平是对临床决策有意义的浓度点，比如诊断心梗的肌钙蛋白第 99 百分位上限、诊断糖尿病的 HbA1c 6.5%。在方法学比对里，医学决定水平附近的准确性最重要。</p>
+      </div></details>
+    </div>
+
+    <div class="qa-group">
+      <h3>四、情景和行为类</h3>
+      <details class="qa"><summary><span class="hot">高频</span>合作医院的研究者不配合、进度拖延，你怎么办？</summary><div class="a">
+        <p class="say">先了解原因：是太忙、对研究不了解，还是流程上有困难。然后针对性解决：把研究的意义和对科室的价值讲清楚，尽量减少研究者的工作量，比如我们承担样本整理和数据录入的支持工作；和科室的研究护士或检验科技师建立日常联系；定期同步进度，提前说明时间节点。如果还是推不动，及时向上级汇报，评估是否需要增加中心。我做课题时也遇到过<span class="fill">〔类似情况：比如需要其他科室配合取样〕</span>，当时我是<span class="fill">〔……〕</span>解决的。</p>
+      </div></details>
+      <details class="qa"><summary>研发说产品没问题，临床专家说不好用，你夹在中间怎么处理？</summary><div class="a">
+        <p class="say">先用数据和事实把问题说清楚：专家说的“不好用”具体是什么场景、哪些样本、有没有记录；再和研发一起复现，区分是产品性能问题、操作问题，还是临床预期和产品定位不一致。我的角色是把临床的语言翻译成研发能执行的需求，也把研发的限制解释给临床。最后形成书面结论，推动改进或调整使用建议。</p>
+      </div></details>
+      <details class="qa"><summary>同时有好几件事都很急，你怎么安排？</summary><div class="a">
+        <p class="say">先按重要和紧急程度排序，和上级确认优先级；能并行的并行，比如样本在检测的时候写报告；有风险的事提前沟通，而不是到截止才说做不完。博士期间我经常同时推进实验、论文修回和帮导师准备汇报，我的习惯是<span class="fill">〔每天列清单 / 倒排时间表〕</span>。</p>
+      </div></details>
+      <details class="qa"><summary>讲一次失败或被批评的经历</summary><div class="a">
+        <p class="why">考察：能否面对失败、有没有反思。选一个真实但不致命的事，重点放在“学到了什么、后来怎么做”。</p>
+        <p>素材建议：论文第一次被拒或被要求大修；实验结果不符合预期；汇报被导师指出逻辑问题。</p>
+        <p class="say">结构：“当时……，结果……。我反思原因是……。后来我……，再遇到类似情况时……。”</p>
+      </div></details>
+      <details class="qa"><summary>你和团队成员意见不一致时怎么办？</summary><div class="a">
+        <p class="say">先听懂对方的理由，再拿数据或文献说话，目标是把事情做好而不是争对错。如果仍有分歧，交给有决策权的人，并且服从最后的决定、全力执行。举一个课题组里讨论实验方案的例子<span class="fill">〔真实例子〕</span>。</p>
+      </div></details>
+      <details class="qa"><summary>你怎么看待加班和压力？</summary><div class="a">
+        <p class="say">临床试验有时间节点，关键阶段加班我可以理解，也有心理准备。读博期间赶论文修回和实验，我已经习惯了高强度。我缓解压力的方式是<span class="fill">〔运动 / 规律作息等〕</span>。同时我更希望通过提前规划，减少临时救火。</p>
+      </div></details>
+    </div>
+
+    <div class="qa-group">
+      <h3>五、条件类：提前想好答案再进面试</h3>
+      <details class="qa"><summary><span class="hot">高频</span>能不能接受在北京工作？</summary><div class="a">
+        <p class="why">往届同岗位面经被问过。这个岗位招聘页写的是深圳和北京，<b>她必须面试前想清楚</b>。</p>
+        <p class="say">如果能接受：“我优先希望在深圳，但如果岗位需要，北京我也可以接受。”<br>如果只想在深圳：“我更希望在深圳，<span class="fill">〔家人在广东 / 长期想在深圳发展〕</span>，这也是我投深圳迈瑞的重要原因。想了解一下深圳这边的岗位是否有空缺？”</p>
+        <p class="dont">避坑：不要当场含糊答“都可以”，拿到北京 offer 再拒很被动。</p>
+      </div></details>
+      <details class="qa"><summary>能不能接受出差？</summary><div class="a">
+        <p class="say">可以。我理解临床工程师需要去合作医院开展临床试验、做调研，出差是工作的一部分，我也希望多去临床一线。<span class="fill">〔如果有限制，就说可接受的频率〕</span></p>
+      </div></details>
+      <details class="qa"><summary><span class="hot">高频</span>期望薪资是多少？</summary><div class="a">
+        <p class="why">校招博士通常有统一标准，第一轮一般不会细谈。先表达态度，被追问再给区间。</p>
+        <p class="say">先说：“我了解迈瑞对博士校招有统一的薪酬体系，我更看重岗位的成长和平台，相信公司会给出合理的待遇。”<br>被追问：“参考行业里博士的水平，我的期望是月薪 <span class="fill">〔2.5–3 万〕</span> 左右，具体可以按公司标准来谈。”</p>
+        <p class="note2">参考：职友集统计迈瑞博士平均月薪约 3.2 万、临床工程师 1–3 年经验多在 2–3 万（样本少，只作参考）。深圳另有博士人才补贴（见“建议和分析”），和公司薪资是分开的。</p>
+      </div></details>
+      <details class="qa"><summary>手上有没有其他 offer / 还在面哪些公司？</summary><div class="a">
+        <p class="say">如实说，但不要报一长串：“我也在看几家 IVD 和医药企业的医学岗位，<span class="fill">〔有 / 还没有〕</span>拿到 offer。迈瑞是我的第一选择，因为……（呼应“为什么选迈瑞”）。”</p>
+        <p class="dont">避坑：没有 offer 不要说有；也不要说“迈瑞只是保底”。</p>
+      </div></details>
+      <details class="qa"><summary>你的职业规划是什么？</summary><div class="a">
+        <p class="say">短期 1–2 年：尽快熟悉迈瑞 IVD 产品和临床评价流程，能独立负责一个产品的临床试验，从方案到报告。中期 3–5 年：在一个疾病领域<span class="fill">〔比如感染 / 心血管 / 骨代谢〕</span>形成专长，能主导多中心临床研究，也能参与海外项目。长期希望成为既懂临床又懂产品的专家，帮助迈瑞的诊断产品在国内外拿到更有说服力的临床证据。</p>
+        <p class="dont">避坑：不要说“以后想回高校 / 考编”。</p>
+      </div></details>
+      <details class="qa"><summary>什么时候能入职？</summary><div class="a">
+        <p class="say">我已经毕业，可以随时入职，也可以按公司安排的时间。</p>
+        <p class="note2">注意：她按 2027 届校招身份应聘，毕业后没有全职工作是前提，如被问到如实说明。</p>
+      </div></details>
+    </div>
+
+    <div class="qa-group">
+      <h3>六、刁钻问题：针对她的短板</h3>
+      <details class="qa"><summary><span class="hot">高频</span>你没有检验医学背景，也没做过 IVD 临床试验，凭什么胜任？</summary><div class="a">
+        <p class="say">您说得对，这是我目前的短板。但我觉得这个岗位最难培养的是三样东西：临床思维、做临床研究的执行力、和医生沟通的能力，这三样我在八年的临床医学训练和博士期间都练过。IVD 的项目知识和法规是可以系统学习的，我已经开始学了，比如<span class="fill">〔最近学了 IVD 临床试验指导原则、各类方法学比对的统计方法〕</span>。另外我有执业医师资格，知道检验结果在临床上怎么被使用，这对做临床需求调研是有帮助的。</p>
+      </div></details>
+      <details class="qa"><summary>你的论文都还没接收，怎么证明你的科研能力？</summary><div class="a">
+        <p class="say">两篇论文都已经进入修回阶段，Bone Research 是<span class="fill">〔第几轮〕</span>修回，AJP 是第二轮修回，预计<span class="fill">〔时间〕</span>会有结果。审稿人主要的意见是<span class="fill">〔……〕</span>，我们已经<span class="fill">〔补充了……〕</span>。比起结果，我更想说明的是我完整经历了从设计、实验、分析到写作和回应审稿意见的全过程。</p>
+        <p class="dont">避坑：不要说“肯定能接收”，说“预计”。</p>
+      </div></details>
+      <details class="qa"><summary>你的缺点是什么？</summary><div class="a">
+        <p class="say">选一个真实、和岗位核心能力不冲突、并且正在改进的缺点。例如：“我以前做事追求细节，有时候在不太重要的地方花太多时间。做课题时导师提醒过我，后来我会先跟大家确认优先级和标准，先完成再完善。”或者：“我在公开场合发言前容易紧张，所以我会提前写讲稿、反复练习，现在在学术会议上汇报已经比较自如了。”</p>
+        <p class="dont">避坑：不要说“我太追求完美 / 太努力”这类假缺点，也不要说“英语不好”“不擅长沟通”这类岗位核心能力。</p>
+      </div></details>
+      <details class="qa"><summary>如果入职后发现每天都是写文档、跟进度，和你想象的不一样，怎么办？</summary><div class="a">
+        <p class="say">我理解临床评价有大量细致的文档和协调工作，这是保证临床证据可靠的基础。我做临床研究时，大部分时间也是在核对数据、跟进随访。我的成就感来自最后的结果——产品因为我们的临床证据获批、被医生用上。</p>
+      </div></details>
+      <details class="qa"><summary>用英文介绍一下你的研究 / 为什么选迈瑞</summary><div class="a">
+        <p class="say" lang="en">My research focuses on ACL injury. After the ligament ruptures, the remnant tissue contains cells that help the graft heal. Using single-cell sequencing on remnant samples from patients with different injury durations, we found that this pro-healing cell environment gradually weakens over time. This may help surgeons decide the timing of surgery.</p>
+        <p class="say" lang="en">I want to join Mindray because it is a global leader in medical devices, and its IVD business is growing fast in international markets. As a clinical engineer, I can combine my clinical training and research experience to generate high-quality clinical evidence for products used all over the world.</p>
+        <p class="dont">提前念熟，慢一点、清楚就好，不需要很华丽。</p>
+      </div></details>
+    </div>
+  </div>
+
+  <!-- 反问面试官 -->
+  <div id="iv-ask">
+    <div class="sec-h"><h2>反问面试官</h2><p>最后一定会问“你有什么问题吗”，<b>不要说“没有”</b>。挑 2–3 个</p></div>
+    <div class="lessons">
+      <div><h3>适合专业面问的</h3><ul>
+        <li>这个岗位目前主要负责哪条产品线？血球、生化还是免疫？</li>
+        <li>新人入职后一般怎么培养？多久能独立负责一个项目？</li>
+        <li>团队里临床工程师的背景分布是怎样的？临床医学和检验医学各多少？</li>
+        <li>这个岗位参与海外临床项目的机会多吗？</li>
+        <li>您觉得在这个岗位上做得好的人，有什么共同特点？</li>
+      </ul></div>
+      <div><h3>适合 HR 面问的</h3><ul>
+        <li>这个岗位的工作地点是深圳还是北京？可以选择吗？</li>
+        <li>后面还有几轮面试？大概多久会有结果？</li>
+        <li>博士入职后有没有导师制或专门的培养计划？</li>
+      </ul></div>
+      <div><h3>第一轮别问的</h3><ul>
+        <li>工资具体多少、加不加班、年假几天（等 offer 阶段再谈）。</li>
+        <li>官网上能查到的问题（“迈瑞有哪些产品”）。</li>
+        <li>“我表现得怎么样？”——可以换成“您觉得我还有哪些方面需要加强？”</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="srcs">来源：
+    <a href="https://career.mindray.com/campus/jobs" target="_blank" rel="noopener">迈瑞校招官网（PHD08 岗位 JD）</a> ·
+    <a href="https://www.21jingji.com/article/20261103/herald/5b81dcdc0a8292c8532f58ca30caac84.html" target="_blank" rel="noopener">迈瑞 2026 年三季报解读（21 经济网）</a> ·
+    <a href="https://www.nbd.com.cn/articles/2026-10-29/4628643.html" target="_blank" rel="noopener">三季报：国际业务增长 11%（每经）</a> ·
+    <a href="https://www.thepaper.cn/newsDetail_forward_34361529" target="_blank" rel="noopener">前三季度净利与国内业务（澎湃）</a> ·
+    <a href="https://www.cls.cn/detail/2329475" target="_blank" rel="noopener">2025 年财报：国际业务占比 53%（财联社）</a> ·
+    <a href="https://www.cnpharm.com/upload/resources/file/2026/04/01/186982.pdf" target="_blank" rel="noopener">迈瑞 2025 年年度报告全文</a> ·
+    <a href="http://applocal.myzaker.com/news/article.php?pk=69c26f21b15ec05510035128" target="_blank" rel="noopener">MT 8000 流水线装机</a> ·
+    <a href="https://www.sspnote.com/detail/22085" target="_blank" rel="noopener">迈瑞 IVD 临床工程师校招面经</a> ·
+    <a href="https://www.upcv.tech/jianlixiezuo/6725.html" target="_blank" rel="noopener">迈瑞博士校招解读（工作地点深圳、北京）</a> ·
+    <a href="https://www.jobui.com/company/7655/salary/j/linchuanggongchengshi/" target="_blank" rel="noopener">迈瑞临床工程师薪资（职友集）</a>
   </div>
 </section>
 
@@ -787,6 +1287,29 @@ function jumpTo(i){
 $('#dlStrip').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)jumpTo(+b.dataset.go)});
 $('#p-advice').addEventListener('click',e=>{const b=e.target.closest('[data-find]');if(!b)return;const [co,job]=b.dataset.find.split('|');const j=J.find(x=>x.co.includes(co)&&x.job.includes(job));if(j)jumpTo(j.i)});
 (function(){const L=J.filter(j=>j.t!==0);$('#aTotal').textContent=L.length;$('#aT1').textContent=L.filter(j=>j.t===1).length;$('#aT2').textContent=L.filter(j=>j.t===2).length;$('#aSZ').textContent=L.filter(j=>(j.cityMain||[]).includes('深圳')).length;})();
+
+/* ---------- 迈瑞面试准备 ---------- */
+(function(){
+  const P=$('#p-mindray');if(!P)return;
+  const iv=new Date('2026-11-27T15:30:00+08:00'),d0=new Date(iv);d0.setHours(0,0,0,0);
+  const days=Math.round((d0-today)/864e5);
+  if(days>0){$('#ivDays').textContent=days;$('#ivLabel').textContent='天后面试'}
+  else if(days===0){$('#ivDays').textContent='今天';$('#ivLabel').textContent='15:30 面试，上午先签到'}
+  else{$('#ivDays').textContent='已结束';$('#ivLabel').textContent='记得复盘'}
+  const ck=store.get('ivChecks',{});
+  P.querySelectorAll('[data-ck]').forEach(b=>{b.checked=!!ck[b.dataset.ck];b.addEventListener('change',()=>{ck[b.dataset.ck]=b.checked;store.set('ivChecks',ck)})});
+  P.querySelector('.subnav').addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();const t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+  const qs=[...P.querySelectorAll('details.qa')];
+  $('#qaOpenAll').addEventListener('click',()=>qs.forEach(q=>q.open=true));
+  $('#qaCloseAll').addEventListener('click',()=>qs.forEach(q=>q.open=false));
+  let last=-1;
+  $('#qaRandom').addEventListener('click',()=>{
+    qs.forEach(q=>q.open=false);
+    let i;do{i=Math.floor(Math.random()*qs.length)}while(qs.length>1&&i===last);last=i;
+    const q=qs[i];q.scrollIntoView({block:'center'});q.classList.remove('flash');void q.offsetWidth;q.classList.add('flash');
+    q.querySelector('summary').focus({preventScroll:true});
+  });
+})();
 
 $('#tabN').textContent=J.filter(j=>j.t!==0).length;
 render();
